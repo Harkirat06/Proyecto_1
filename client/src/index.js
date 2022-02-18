@@ -2,11 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 
+const back = {
+  backgroundColor: "#212F3C"
+}
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <App />,
   document.getElementById('root')
 );
 
