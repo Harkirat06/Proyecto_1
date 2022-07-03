@@ -52,6 +52,7 @@ const lista = (dirPath)=>{
         data.push(
            {
               path: file,
+              filename: ls[i],
               isDirectory: dataFile.isDirectory(),
               length: dataFile.size
            });

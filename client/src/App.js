@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {Titulo} from './Axios'
 import { useState } from 'react'
-import {ProgressBar,Button,Form,Alert} from 'react-bootstrap'
+import {ProgressBar,Button,Form,Alert,CardGroup,Card} from 'react-bootstrap'
 
 function App() {
   
@@ -35,7 +35,6 @@ function App() {
     setDoc(e.target.files)
   }
   
-  
   const title ={
     textAlign: "center",
     fontWeight: "bold",
@@ -45,12 +44,62 @@ function App() {
   const input= {
     margin: 20
   }
-  const [mensaje, archivos] = Titulo()
+  const style = {
+    maxWidth: 243,
+    maxHeight: 160
 
+  }
+  const a = Titulo()
+  const Archivos = ()=>{
+  return (
+<CardGroup>
+  <Card>
+    <Card.Img variant="top" style={style} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf6ynAIQHMor1AVojBxcIuLPDxAM9HsU0RIA&usqp=CAU160" />
+    <Card.Body>
+      <Card.Title>Card title</Card.Title>
+      <Card.Text>
+        This is a wider card with supporting text below as a natural lead-in to
+        additional content. This content is a little bit longer.
+      </Card.Text>
+    </Card.Body>
+    <Card.Footer>
+      <small className="text-muted">Last updated 3 mins ago</small>
+    </Card.Footer>
+  </Card>
+  <Card>
+    <Card.Img variant="top" style={style} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf6ynAIQHMor1AVojBxcIuLPDxAM9HsU0RIA&usqp=CAU00px160" />
+    <Card.Body>
+      <Card.Title>Card title</Card.Title>
+      <Card.Text>
+        This card has supporting text below as a natural lead-in to additional
+        content.{' '}
+      </Card.Text>
+    </Card.Body>
+    <Card.Footer>
+      <small className="text-muted">Last updated 3 mins ago</small>
+    </Card.Footer>
+  </Card>
+  <Card>
+    <Card.Img variant="top" style={style}  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf6ynAIQHMor1AVojBxcIuLPDxAM9HsU0RIA&usqp=CAU" />
+    <Card.Body>
+      <Card.Title>Card title</Card.Title>
+      <Card.Text>
+        This is a wider card with supporting text below as a natural lead-in to
+        additional content. This card has even longer content than the first to
+        show that equal height action.
+      </Card.Text>
+    </Card.Body>
+    <Card.Footer>
+      <small className="text-muted">Last updated 3 mins ago</small>
+    </Card.Footer>
+  </Card>
+</CardGroup>
+  )
+  }
   return (
     <div className="Upload" >
       <div className='Title' style={title} >
-      <h1>{mensaje}</h1>
+      <h1>{a[0]}</h1>
       </div>
       <div className="Alerta">
       {error > 0 &&
@@ -74,6 +123,9 @@ function App() {
       </Form.Group>
       <div style={input}>
       <ProgressBar animated now={progress} label={`${progress}%`} />
+      </div>
+      <div className="archivos">
+        <Archivos />
       </div>
     </div>
   );

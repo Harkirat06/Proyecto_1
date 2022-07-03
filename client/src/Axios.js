@@ -3,15 +3,16 @@ import { useState } from 'react'
 
 export const Titulo = ()=> {
     const [mensaje,setMensaje] = useState("")
+    const [archivos,setArchivos] = useState("")
     axios.get("/api").then(response => {
         const {data} = response
         setMensaje(data.message) 
       })
       axios.get("/content").then(response=>{
         const{data} = response
-        const archivos = data
+        setArchivos(data)
       })
-      return mensaje,archivos
+      return [mensaje,archivos]
 }
 
 
