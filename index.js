@@ -2,6 +2,7 @@ const dotenv = require('dotenv').config()
 const express = require('express')
 const multer  = require('multer')
 const path = require('path')
+const fs = require('fs')
 const PORT = process.env.PORT || 5000
 const server = express()
 
@@ -32,8 +33,42 @@ server.post("/uploadFile",upload.array('docs',10), async (req,res,next) => {
 })
 
 server.get("/api",(req,res)=>{
-    res.json({message: "Uploader"});
+    res.json({message: "YourCloud"});
 })
+
+const data = []
+
+const lista = (dirPath)=>{
+  try{
+    var ls = fs.readdirSync(dirPath)
+    for(let i = 0; i<ls.length; i++){
+      const file = path.join(dirPath, ls[i])
+      var dataFile = null
+      try {
+        dataFile=fs.lstatSync(file)
+      } catch (error) { }
+
+      if(dataFile){
+        data.push(
+           {
+              path: file,
+              isDirectory: dataFile.isDirectory(),
+              length: dataFile.size
+           });
+
+        if(dataFile.isDirectory()){
+           lista(file)
+        }
+     }
+    }
+  }catch(e){}
+}
+lista("./uploads");
+console.log(data)
+server.get("/content",(req,res)=>{
+  res.json(data);
+})
+
 server.listen(PORT, ()=>{
     console.log("Server Iniciado")
 })
