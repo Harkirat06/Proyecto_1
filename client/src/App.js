@@ -1,7 +1,10 @@
 import axios from 'axios'
-import {Titulo} from './Axios'
-import { useState } from 'react'
-import {ProgressBar,Button,Form,Alert,CardGroup,Card} from 'react-bootstrap'
+import { useState, useEffect } from 'react'
+import {ProgressBar,Button,Form,Alert} from 'react-bootstrap'
+import "bootstrap/dist/css/bootstrap.min.css"
+import "./App.css"
+import {Titulos, Archivos} from "./Axios"
+import Cards from "./Cards"
 
 function App() {
   
@@ -19,12 +22,12 @@ function App() {
     data.append("docs",file)
     })
 
-    axios.post("/uploadFile", data,{onUploadProgress: data => {
+    axios.post("http://localhost:3001/uploadFile", data,{onUploadProgress: data => {
       setProgress(Math.round((100 * data.loaded) / data.total))
     }}).then((res) => {
       console.log(res)
       setFinish(true)
-      setTimeout(()=>setProgress(0), 5000)
+      setTimeout(()=>{setProgress(0)}, 5000)
     })
    }else{
       setError(true)
@@ -39,7 +42,6 @@ function App() {
     textAlign: "center",
     fontWeight: "bold",
     color: "#0d6efd",
-    margin: 20
   }
   const input= {
     margin: 20
@@ -49,58 +51,15 @@ function App() {
     maxHeight: 160
 
   }
-  const a = Titulo()
-  const Archivos = ()=>{
-  return (
-<CardGroup>
-  <Card>
-    <Card.Img variant="top" style={style} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf6ynAIQHMor1AVojBxcIuLPDxAM9HsU0RIA&usqp=CAU160" />
-    <Card.Body>
-      <Card.Title>Card title</Card.Title>
-      <Card.Text>
-        This is a wider card with supporting text below as a natural lead-in to
-        additional content. This content is a little bit longer.
-      </Card.Text>
-    </Card.Body>
-    <Card.Footer>
-      <small className="text-muted">Last updated 3 mins ago</small>
-    </Card.Footer>
-  </Card>
-  <Card>
-    <Card.Img variant="top" style={style} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf6ynAIQHMor1AVojBxcIuLPDxAM9HsU0RIA&usqp=CAU00px160" />
-    <Card.Body>
-      <Card.Title>Card title</Card.Title>
-      <Card.Text>
-        This card has supporting text below as a natural lead-in to additional
-        content.{' '}
-      </Card.Text>
-    </Card.Body>
-    <Card.Footer>
-      <small className="text-muted">Last updated 3 mins ago</small>
-    </Card.Footer>
-  </Card>
-  <Card>
-    <Card.Img variant="top" style={style}  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf6ynAIQHMor1AVojBxcIuLPDxAM9HsU0RIA&usqp=CAU" />
-    <Card.Body>
-      <Card.Title>Card title</Card.Title>
-      <Card.Text>
-        This is a wider card with supporting text below as a natural lead-in to
-        additional content. This card has even longer content than the first to
-        show that equal height action.
-      </Card.Text>
-    </Card.Body>
-    <Card.Footer>
-      <small className="text-muted">Last updated 3 mins ago</small>
-    </Card.Footer>
-  </Card>
-</CardGroup>
-  )
+  const margen = {
+    margin: 20
   }
+  
+    var archivos = Archivos()
+    const titulo = Titulos()
   return (
-    <div className="Upload" >
-      <div className='Title' style={title} >
-      <h1>{a[0]}</h1>
-      </div>
+    <div className="App" >
+      <div className='Title' style={title} ><h1>{titulo}</h1></div>
       <div className="Alerta">
       {error > 0 &&
         <Alert key={'danger'} variant={'danger'} onClose={()=>setError(false)} dismissible style={input}>
@@ -113,6 +72,7 @@ function App() {
         </Alert>
       }
       </div>
+      <div>
       <Form.Group controlId="formFileMultiple" className="mb-3" style={input}>
         <Form.Control type="file" onChange={onChange} multiple />
         <div className="d-grid gap-2" style={{marginTop: 20}}>
@@ -121,12 +81,11 @@ function App() {
           </Button>
         </div>
       </Form.Group>
+      </div>
       <div style={input}>
       <ProgressBar animated now={progress} label={`${progress}%`} />
       </div>
-      <div className="archivos">
-        <Archivos />
-      </div>
+      <Cards archivos={archivos} /> 
     </div>
   );
 }

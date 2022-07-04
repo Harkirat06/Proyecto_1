@@ -5,8 +5,22 @@ const path = require('path')
 const fs = require('fs')
 const PORT = process.env.PORT || 5000
 const server = express()
+const cors = require("cors")
 
 server.use(express.json())
+
+const whitelist = ["http://localhost:3000"]
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error("Not allowed by CORS"))
+    }
+  },
+  credentials: true,
+}
+server.use(cors(corsOptions))
 
 const storage = multer.diskStorage({
     destination: "uploads/",
@@ -51,10 +65,10 @@ const lista = (dirPath)=>{
       if(dataFile){
         data.push(
            {
-              path: file,
-              filename: ls[i],
-              isDirectory: dataFile.isDirectory(),
-              length: dataFile.size
+              "path": file,
+              "filename": ls[i],
+              "isDirectory": dataFile.isDirectory(),
+              "length": dataFile.size
            });
 
         if(dataFile.isDirectory()){
