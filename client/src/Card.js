@@ -8,8 +8,8 @@ function Card({title}) {
             <img src={img} alt="" />
             <div className="card-body text-light">
                 <h6 className="card-title">{title}</h6>
-                 <a href="#!" className="btn btn-outline-primary">Download</a>
             </div>
+            <a href="#!" className="btn btn-outline-primary">Download</a>
         </div>
 
     )

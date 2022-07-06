@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 export function Titulos() {
   const [mensaje,setMensaje] = useState("")
   useEffect(()=>{
-    axios.get("http://localhost:3001/api").then(response => {
+    axios.get("/api").then(response => {
     const {data} = response
     setMensaje(data.message)  
   })
@@ -16,7 +16,7 @@ export function Titulos() {
 export function Archivos(){
   const [archivos,setArchivos] = useState("")
   useEffect(()=>{
-    axios.get("http://localhost:3001/content").then(response=>{
+    axios.get("/content").then(response=>{
     const{data} = response
     setArchivos(data)
   })

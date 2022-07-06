@@ -1,6 +1,8 @@
 .App{
     background: rgb(40, 45, 54);
-    height: 100%;
-    width: 100%;
     padding: 1%;
+    min-height: 100vh;
+}
+html, body {
+    min-height: 100vh;
 }

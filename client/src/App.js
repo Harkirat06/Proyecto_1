@@ -3,9 +3,8 @@ import { useState, useEffect } from 'react'
 import {ProgressBar,Button,Form,Alert} from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "./App.css"
-import {Titulos, Archivos} from "./Axios"
 import Cards from "./Cards"
-
+import {Archivos} from "./Axios"
 function App() {
   
   const [doc,setDoc] = useState(null)
@@ -22,7 +21,7 @@ function App() {
     data.append("docs",file)
     })
 
-    axios.post("http://localhost:3001/uploadFile", data,{onUploadProgress: data => {
+    axios.post("/uploadFile", data,{onUploadProgress: data => {
       setProgress(Math.round((100 * data.loaded) / data.total))
     }}).then((res) => {
       console.log(res)
@@ -54,12 +53,10 @@ function App() {
   const margen = {
     margin: 20
   }
-  
-    var archivos = Archivos()
-    const titulo = Titulos()
+  let archivos = Archivos()
   return (
     <div className="App" >
-      <div className='Title' style={title} ><h1>{titulo}</h1></div>
+      <div className='Title' style={title} ><h1>Uploader</h1></div>
       <div className="Alerta">
       {error > 0 &&
         <Alert key={'danger'} variant={'danger'} onClose={()=>setError(false)} dismissible style={input}>
@@ -85,7 +82,7 @@ function App() {
       <div style={input}>
       <ProgressBar animated now={progress} label={`${progress}%`} />
       </div>
-      <Cards archivos={archivos} /> 
+      <Cards archivos={archivos}/> 
     </div>
   );
 }
