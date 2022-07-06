@@ -1,16 +1,17 @@
 import axios from 'axios'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {ProgressBar,Button,Form,Alert} from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "./App.css"
 import Cards from "./Cards"
-import {Archivos} from "./Axios"
+
 function App() {
   
   const [doc,setDoc] = useState(null)
   const [progress,setProgress] = useState(0)
   const [error,setError] = useState(false)
   const [finish,setFinish] = useState(false)
+
 
   const onClick = (e) => {
     e.preventDefault()
@@ -20,11 +21,9 @@ function App() {
     arr.map((file)=>{
     data.append("docs",file)
     })
-
     axios.post("/uploadFile", data,{onUploadProgress: data => {
       setProgress(Math.round((100 * data.loaded) / data.total))
     }}).then((res) => {
-      console.log(res)
       setFinish(true)
       setTimeout(()=>{setProgress(0)}, 5000)
     })
@@ -53,7 +52,7 @@ function App() {
   const margen = {
     margin: 20
   }
-  let archivos = Archivos()
+
   return (
     <div className="App" >
       <div className='Title' style={title} ><h1>Uploader</h1></div>
@@ -82,7 +81,7 @@ function App() {
       <div style={input}>
       <ProgressBar animated now={progress} label={`${progress}%`} />
       </div>
-      <Cards archivos={archivos}/> 
+      <Cards />
     </div>
   );
 }

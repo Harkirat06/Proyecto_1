@@ -36,9 +36,9 @@ server.get("/api",(req,res)=>{
     res.json({message: "YourCloud"});
 })
 
-const data = []
 
-const lista = (dirPath)=>{
+
+const lista = (dirPath,data)=>{
   try{
     var ls = fs.readdirSync(dirPath)
     for(let i = 0; i<ls.length; i++){
@@ -66,8 +66,9 @@ const lista = (dirPath)=>{
 }
 
 server.get("/content",(req,res)=>{
-  lista("./uploads");
-  res.json(data);
+const data = []
+  lista("./uploads",data)
+res.json(data);
 })
 
 server.listen(PORT, ()=>{
