@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {ProgressBar,Button,Form,Alert} from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "./App.css"
@@ -11,8 +11,15 @@ function App() {
   const [progress,setProgress] = useState(0)
   const [error,setError] = useState(false)
   const [finish,setFinish] = useState(false)
+  const [archivos,setArchivos] = useState([])
+  const [refrescar,setRefrescar] = useState(0)  
 
-
+  useEffect(()=>{
+    axios.get("/content").then(response=>{
+      const{data} = response
+      setArchivos(data)
+    })
+  },[refrescar])
   const onClick = (e) => {
     e.preventDefault()
     if(doc){
@@ -25,6 +32,7 @@ function App() {
       setProgress(Math.round((100 * data.loaded) / data.total))
     }}).then((res) => {
       setFinish(true)
+      setRefrescar(prev=> prev + 1)
       setTimeout(()=>{setProgress(0)}, 5000)
     })
    }else{
@@ -70,7 +78,7 @@ function App() {
       </div>
       <div>
       <Form.Group controlId="formFileMultiple" className="mb-3" style={input}>
-        <Form.Control type="file" onChange={onChange} multiple />
+        <Form.Control type="file" onChange={onChange} /*webkitdirectory="true"*/ multiple />
         <div className="d-grid gap-2" style={{marginTop: 20}}>
           <Button variant="primary" size="lg" onClick={onClick}>
             Enviar
@@ -81,7 +89,8 @@ function App() {
       <div style={input}>
       <ProgressBar animated now={progress} label={`${progress}%`} />
       </div>
-      <Cards />
+      <div style={margen} onClick={()=>setRefrescar(prev=> prev + 1)}><Button variant='primary'>Recargar</Button></div>
+      <Cards archivos={archivos}/>
     </div>
   );
 }
