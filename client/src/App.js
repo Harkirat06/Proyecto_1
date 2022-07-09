@@ -3,14 +3,25 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import "./App.css"
 import Navigation from './components/Navigation'
 import Uploader from './components/Uploader'
+import StateProvider from './components/StateProvider'
+import { createContext } from 'react'
+import Cards from './components/Cards'
 
 function App() {
+  const StateContext = createContext()
   return (
     <BrowserRouter id="App">
-      <Navigation />
-      <Routes>
-        <Route path="/" element={<Uploader />} />
-      </Routes>
+      <StateProvider context={StateContext}>
+        <Navigation />
+        <Routes>
+          <Route path="/" element={
+            <div>
+              <Uploader context={StateContext} />
+              <Cards context={StateContext} />
+            </div>
+          } />
+        </Routes>
+      </StateProvider>
     </BrowserRouter>
   )
 }

@@ -1,23 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { ProgressBar, Button, Form, Alert } from 'react-bootstrap'
-import { useState, useEffect } from 'react'
+import { useState, } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css"
-import axios from "axios"
-import Cards from "./Cards"
+import {PostFiles} from "./Axios"
 
-export default function Uploader() {
+
+export default function Uploader({context}) {
     const [doc, setDoc] = useState(null)
-    const [progress, setProgress] = useState(0)
     const [error, setError] = useState(false)
-    const [finish, setFinish] = useState(false)
-    const [refrescar, setRefrescar] = useState(0)
-    const [archivos,setArchivos] = useState([])
-    useEffect(() => {
-        axios.get("/content").then(response => {
-            const { data } = response
-            setArchivos(data)
-        })
-    }, [refrescar])
+    const {finish, setFinish, progress} = useContext(context)
     const onClick = (e) => {
         e.preventDefault()
         if (doc) {
@@ -26,15 +17,7 @@ export default function Uploader() {
             arr.map((file) => {
                 data.append("docs", file)
             })
-            axios.post("/uploadFile", data, {
-                onUploadProgress: data => {
-                    setProgress(Math.round((100 * data.loaded) / data.total))
-                }
-            }).then((res) => {
-                setFinish(true)
-                setRefrescar(prev => prev + 1)
-                setTimeout(() => { setProgress(0) }, 5000)
-            })
+            PostFiles(data,context)
         } else {
             setError(true)
         }
@@ -76,8 +59,6 @@ export default function Uploader() {
             <div style={input}>
                 <ProgressBar animated now={progress} label={`${progress}%`} />
             </div>
-            <div><button type="button" style={margen} className="btn btn-primary" onClick={()=>setRefrescar(prev=>prev+1)}>Recargar</button></div>
-            <Cards archivos={archivos} />
         </div>
     )
 }
