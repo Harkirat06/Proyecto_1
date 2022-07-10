@@ -1,15 +1,16 @@
 import "bootstrap/dist/css/bootstrap.min.css"
-import Axios from "axios"
-import fileDownload from 'js-file-download'
+import { useContext } from "react"
+import { downloadFile } from "./Axios"
+import "./Card.css"
 
-function Card({ title }) {
+function Card({ title, context, directory }) {
+    const {setPath} = useContext(context)
     const link = "/download/" + title
     var extension = ""
     var imagen = "/public/img.jpg"
     if (title != title.split(".").pop()) {
         extension = title.split(".").pop()
     }
-    const s = extension !== ""
     switch (extension) {
         case "mp3":
             imagen = "/public/mp3.png"
@@ -33,7 +34,7 @@ function Card({ title }) {
             imagen = "/public/video.png"
             break
         case "pdf":
-            imagen = "/public/pdf.svg"
+            imagen = "/public/pdf.png"
             break
         case "docx":
             imagen = "/public/word.png"
@@ -49,23 +50,19 @@ function Card({ title }) {
             break
     }
     const download = () => {
-        Axios({
-            url: link,
-            method: "GET",
-            responseType: "blob"
-        }).then((res) => {
-            console.log(res.data)
-            fileDownload(res.data, title)
-        })
+        downloadFile(link, title)
     }
     return (
-        <div className="card text-center bg-dark">
-            <img src={imagen} alt="" />
+        <div className="card text-center bg-dark" onDoubleClick={()=>{
+            setPath(prev=> prev + "/" + title)
+        }}>
+            <img src={imagen} className="card-img-top" alt="" />
             <div className="card-body text-light">
-                <h6 className="card-title">{title}</h6>
-            </div>{s &&
+                <h6 className="card-title" data-toggle="tooltip" data-placement="right" title={title}>{title}</h6>
+            </div>
+            <div className="card-footer">
                 <a onClick={download} className="btn btn-outline-primary">Download</a>
-            }
+            </div>
         </div>
 
     )

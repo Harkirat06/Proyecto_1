@@ -1,0 +1,8 @@
+.card:hover {
+    box-shadow: 5px 10px 20px 1px rgb(248, 249, 250);
+}
+.card-title{
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+}

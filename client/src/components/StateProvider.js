@@ -1,27 +1,33 @@
-import React, { useState,useEffect, useMemo } from 'react'
-import {getContent} from './Axios'
+import React, { useState, useEffect, useMemo } from 'react'
+import { getContent } from './Axios'
 
-function StateProvider({context, children}) {
+function StateProvider({ context, children }) {
     const StateContext = context
     const [archivos, setArchivos] = useState([])
     const [refrescar, setRefrescar] = useState(0)
     const [progress, setProgress] = useState(0)
     const [finish, setFinish] = useState(false)
+    const [doc, setDoc] = useState(null)
+    const [error, setError] = useState(false)
+    const [path, setPath] = useState("/uploads")
     useEffect(async () => {
-        /*axios.get("/content").then(response => {
-            const { data } = response
-            setArchivos(data)
-        })*/
-        const data = await getContent()
+        const data = await getContent(path)
         setArchivos(data)
-    }, [refrescar])
+    }, [refrescar, path])
 
-    const contextValue = useMemo(() => ({ archivos, setRefrescar, progress, setProgress, finish, setFinish}), [
+    const contextValue = useMemo(() => ({
+        archivos, setRefrescar, progress, setProgress,
+        finish, setFinish, error, setError, doc, setDoc,
+        path, setPath
+    }), [
         archivos,
         refrescar,
-        progress, 
-        finish
-      ]);
+        progress,
+        finish,
+        error,
+        doc,
+        path
+    ]);
 
     return (
         <StateContext.Provider value={contextValue}>

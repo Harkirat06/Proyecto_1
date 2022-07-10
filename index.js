@@ -3,14 +3,24 @@ const express = require('express')
 const multer  = require('multer')
 const path = require('path')
 const fs = require('fs')
-const { default: fileDownload } = require('js-file-download')
 const PORT = process.env.PORT || 5000
 const server = express()
 
 server.use(express.json())
 
 const storage = multer.diskStorage({
-    destination: "uploads/",
+    /*destination: function(req, cb){
+      let t = req.query.path;
+      console.log(t)
+      let path = "." + t;
+      cb(null, path);
+    },*/
+    destination: function (req, file, cb) {
+      cb(
+        null,
+        "." + req.query.path
+      );
+    },
     filename: function (req, file, cb) {
       cb(
         null,
@@ -50,7 +60,7 @@ const upload = multer({
     }catch(e){}
   }
 
-server.post("/uploadFile",upload.array('docs',10), async (req,res,next) => {
+server.post("/uploadFile",upload.array('docs'), async (req,res) => {
   const {files} = req
   console.log(files)  
   if(!files){
@@ -60,9 +70,12 @@ server.post("/uploadFile",upload.array('docs',10), async (req,res,next) => {
     }
 })
 server.get("/content",(req,res)=>{
+  const path = req.query.path
+  if(path!==""){
   const data = []
-  lista("./uploads",data)
+  lista("." + path,data)
   res.json(data);
+  }
 })
 
 server.get("/download/:id", (req,res) =>{

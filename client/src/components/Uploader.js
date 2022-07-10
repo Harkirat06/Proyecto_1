@@ -1,15 +1,13 @@
 import React, { useContext } from 'react'
 import { ProgressBar, Button, Form, Alert } from 'react-bootstrap'
-import { useState, } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css"
-import {PostFiles} from "./Axios"
+import axios from 'axios'
 
 
-export default function Uploader({context}) {
-    const [doc, setDoc] = useState(null)
-    const [error, setError] = useState(false)
-    const {finish, setFinish, progress} = useContext(context)
-    const onClick = (e) => {
+export default function Uploader({ context }) {
+    const { finish, setFinish, progress, setProgress, setRefrescar,
+        doc, setDoc, error, setError, path } = useContext(context)
+    const OnClick = (e) => {
         e.preventDefault()
         if (doc) {
             const arr = Array.from(doc)
@@ -17,7 +15,18 @@ export default function Uploader({context}) {
             arr.map((file) => {
                 data.append("docs", file)
             })
-            PostFiles(data,context)
+            axios.post("/uploadFile", data, {
+                onUploadProgress: data => {
+                    setProgress(Math.round((100 * data.loaded) / data.total))
+                },
+                params:{
+                    path: path
+                }
+            }).then(() => {
+                setFinish(true)
+                setRefrescar(prev => prev + 1)
+                setTimeout(() => { setProgress(0) }, 5000)
+            })
         } else {
             setError(true)
         }
@@ -26,9 +35,6 @@ export default function Uploader({context}) {
         setDoc(e.target.files)
     }
     const input = {
-        margin: 20
-    }
-    const margen = {
         margin: 20
     }
 
@@ -50,7 +56,7 @@ export default function Uploader({context}) {
                 <Form.Group controlId="formFileMultiple" className="mb-3" style={input}>
                     <Form.Control type="file" onChange={onChange} /*webkitdirectory="true"*/ multiple />
                     <div className="d-grid gap-2" style={{ marginTop: 20 }}>
-                        <Button variant="primary" size="lg" onClick={onClick}>
+                        <Button variant="primary" size="lg" onClick={OnClick}>
                             Enviar
                         </Button>
                     </div>

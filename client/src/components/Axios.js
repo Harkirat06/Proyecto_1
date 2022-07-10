@@ -1,23 +1,25 @@
 import axios from 'axios'
-import { useContext } from 'react'
+import Axios from "axios"
+import fileDownload from 'js-file-download'
 
-export async function getContent() {
-    const response = await axios.get("/content")
+export async function getContent(path) {
+    const response = await axios.get("/content", {
+        params: {
+          path: path
+        }})
     return response.data
 }
-export function PostFiles(data, context) {
-    const {setProgress} = useContext(context)
-    const {setRefrescar} = useContext(context)
-    const {setFinish} = useContext(context)
-    axios.post("/uploadFile", data, {
-        onUploadProgress: data => {
-        setProgress(Math.round((100 * data.loaded) / data.total))
-        }
-    }).then(() => {
-        setFinish(true)
-        setRefrescar(prev => prev + 1)
-        setTimeout(() => { setProgress(0) }, 5000)
+
+export async function downloadFile(link, title) {
+    await Axios({
+        url: link,
+        method: "GET",
+        responseType: "blob"
+    }).then((res) => {
+        console.log(res.data)
+        fileDownload(res.data, title)
     })
 }
+
 
 
