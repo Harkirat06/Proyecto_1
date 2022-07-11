@@ -11,8 +11,9 @@ function StateProvider({ context, children }) {
     const [error, setError] = useState(false)
     const [path, setPath] = useState("/uploads")
     useEffect(async () => {
-        const data = await getContent(path)
-        setArchivos(data)
+        const {dat, newPath} = await getContent(path)
+        setArchivos(dat)
+        setPath(newPath)
     }, [refrescar, path])
 
     const contextValue = useMemo(() => ({

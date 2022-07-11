@@ -4,7 +4,6 @@ import Card from "./Card"
 
 function Cards({ context }) {
     const { archivos, setRefrescar, setPath, path } = useContext(context)
-
     let i = 0
     return (
         <div>

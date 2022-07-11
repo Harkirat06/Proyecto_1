@@ -4,8 +4,7 @@ import { downloadFile } from "./Axios"
 import "./Card.css"
 
 function Card({ title, context, directory }) {
-    const {setPath} = useContext(context)
-    const link = "/download/" + title
+    const {setPath, path} = useContext(context)
     var extension = ""
     var imagen = "/public/img.jpg"
     if (title != title.split(".").pop()) {
@@ -50,7 +49,7 @@ function Card({ title, context, directory }) {
             break
     }
     const download = () => {
-        downloadFile(link, title)
+        downloadFile(title, path + "/" + title, directory)  
     }
     return (
         <div className="card text-center bg-dark" onDoubleClick={()=>{
