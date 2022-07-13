@@ -19,7 +19,7 @@ function StateProvider({ context, children }) {
     const contextValue = useMemo(() => ({
         archivos, setRefrescar, progress, setProgress,
         finish, setFinish, error, setError, doc, setDoc,
-        path, setPath
+        path, setPath,refrescar
     }), [
         archivos,
         refrescar,

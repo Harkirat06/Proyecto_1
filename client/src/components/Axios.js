@@ -3,7 +3,7 @@ import Axios from "axios"
 import fileDownload from 'js-file-download'
 
 export async function getContent(path) {
-    if(path!==""){
+    if (path !== "") {
         const response = await axios.get("/content", {
             params: {
                 path: path
@@ -11,11 +11,11 @@ export async function getContent(path) {
         })
         const dat = response.data
         const newPath = path
-        return {dat, newPath}
-    }else{
-        const newPath = path + "/uploads" 
+        return { dat, newPath }
+    } else {
+        const newPath = path + "/uploads"
         const arr = []
-        return {arr,newPath}
+        return { arr, newPath }
     }
 }
 
@@ -39,5 +39,15 @@ export async function downloadFile(title, path, directory) {
     })
 }
 
+export async function deleteFiles(path){
+    axios.delete("/delete",{params: {
+        path: path
+    }})
+}
 
+export async function makeDir(path){
+    await axios.post("/createDir",null,{params: {
+        path: path
+    }})
+}
 
