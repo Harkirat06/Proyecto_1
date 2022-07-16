@@ -40,7 +40,7 @@ export async function downloadFile(title, path, directory) {
 }
 
 export async function deleteFiles(path){
-    axios.delete("/delete",{params: {
+    return axios.delete("/delete",{params: {
         path: path
     }})
 }

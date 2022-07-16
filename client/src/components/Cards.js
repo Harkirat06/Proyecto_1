@@ -7,7 +7,7 @@ import { MdCreateNewFolder } from "react-icons/md"
 import { makeDir } from "./Axios"
 
 function Cards({ context }) {
-    const { archivos, setRefrescar, setPath, path, refrescar } = useContext(context)
+    const { archivos, setRefrescar, setPath, path} = useContext(context)
     let i = 0
     const subir = () => {
         let index = path.lastIndexOf("/")
