@@ -6,16 +6,18 @@ import Uploader from './components/Uploader'
 import StateProvider from './components/StateProvider'
 import { createContext } from 'react'
 import Cards from './components/Cards'
+import Login from './components/Login'
 
 function App() {
   const StateContext = createContext()
   return (
     <BrowserRouter id="App">
       <StateProvider context={StateContext}>
-        <Navigation />
         <Routes>
-          <Route path="/" element={
+          <Route path="/" element={<Login context={StateContext}/>} />
+          <Route path="/cloud" element={
             <div>
+              <Navigation />
               <Uploader context={StateContext} />
               <Cards context={StateContext} />
             </div>

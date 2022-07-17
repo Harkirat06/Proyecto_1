@@ -24,7 +24,7 @@ function Cards({ context }) {
         <div>
             <div style={{ margin: 20 }}>
                 <button type="button" className="btn btn-primary" onClick={subir}>
-                    <h4><FaLevelUpAlt /></h4>
+                    <h4><FaLevelUpAlt style={{verticalAlign: "middle"}} /></h4>
                 </button>
                 <button style={{marginLeft:20}} type="button" className="btn btn-info" onClick={crearCarpeta}>
                     <h4><MdCreateNewFolder /></h4>
@@ -33,7 +33,7 @@ function Cards({ context }) {
                     overflow: "hidden",
                     float: "right"
                 }} className="btn btn-primary" onClick={() => setRefrescar(prev => prev + 1)}>
-                    <h4><AiOutlineReload /></h4>
+                    <h4><AiOutlineReload style={{verticalAlign: "middle"}} /></h4>
                 </button>
             </div>
             <div className="container justify-content-center align-items-center">
