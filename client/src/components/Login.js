@@ -4,14 +4,34 @@ import { Container, Row, Col, Form, FormLabel, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { BsGoogle } from "react-icons/bs"
 import "./Login.css"
+import { registerUser } from './Axios'
 
 
 function Login({ context }) {
     const white = { color: "white" }
-    const { register, setRegister } = useContext(context)
+    const { register, setRegister, username, setUsername, password, setPassword, email, setEmail } = useContext(context)
     const registrar = () => { setRegister(prev => !prev) }
-    const login = ()=>{
-        
+    const valueUser = (e) => {
+        setUsername(e.target.value)
+    }
+    const valueEmail = (e) => {
+        setEmail(e.target.value)
+    }
+    const valuePassword = (e) => {
+        setPassword(e.target.value)
+    }
+    const submit = async (e) => {
+        e.preventDefault()
+        const newUser = {
+            userName: username,
+            email,
+            password
+        }
+        const usuario = await registerUser(newUser,register)
+        console.log(usuario)
+        setEmail("")
+        setPassword("")
+        setUsername("")
     }
     return (
         <Container className='w-75 rounded shadow mt-3'>
@@ -26,22 +46,22 @@ function Login({ context }) {
                     <Form action='#'>
                         <div className='mb-4'>
                             <FormLabel style={white}>Usuario</FormLabel>
-                            <Form.Control placeholder="User Name" />
+                            <Form.Control placeholder="User Name" onChange={valueUser} value={username} />
                         </div>
                         {!register &&
                             <div className='mb-4'>
                                 <FormLabel style={white}>Correo Electrónico</FormLabel>
-                                <Form.Control type="email" placeholder="Email" />
+                                <Form.Control type="email" placeholder="Email" onChange={valueEmail} value={email} />
                             </div>}
                         <div className='mb-4'>
                             <FormLabel style={white}>Contraseña</FormLabel>
-                            <Form.Control type="password" placeholder="Password" />
+                            <Form.Control type="password" placeholder="Password" onChange={valuePassword} value={password} />
                         </div>{register &&
                             <div className='mb-4'>
                                 <Form.Check type="checkbox" label="Mantener sesión" style={white} />
                             </div>}
                         <div className='d-grid'>
-                            <Button variant="primary" onClick={login}>{register ? "Login" : "Sign Up"}</Button>
+                            <Button type='submit' variant="primary" onClick={submit}>{register ? "Login" : "Sign Up"}</Button>
                         </div>
                         <div className='my-3'>
                             <span style={white}>{register ? "¿No tienes cuenta? " : "¿Ya tienes cuenta? "}<Link onClick={registrar} to="/" style={{ color: "#198754" }}>{register ? "Sign Up" : "Login"}</Link></span>

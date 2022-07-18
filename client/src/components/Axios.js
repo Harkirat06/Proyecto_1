@@ -50,4 +50,12 @@ export async function makeDir(path){
         path: path
     }})
 }
+export async function registerUser(user, register){
+    const res = await axios.post("/users",user,{params:{
+        register
+    }})
+    const {data} = res
+    return data
+}
+
 

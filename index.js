@@ -1,3 +1,4 @@
+require("./mongoose")
 const dotenv = require('dotenv').config()
 const express = require('express')
 const multer = require('multer')
@@ -6,6 +7,7 @@ const fs = require('fs')
 const del = require('del')
 const AdmZip = require("adm-zip")
 const PORT = process.env.PORT || 5000
+const usersRouter = require("./controllers/users")
 const server = express()
 
 server.use(express.json())
@@ -135,6 +137,7 @@ server.post("/createDir",(req,res)=>{
     }
     res.sendStatus(201)
 })
+server.use("/users", usersRouter)
 server.listen(PORT, () => {
   console.log("Server Iniciado")
 })
