@@ -50,10 +50,14 @@ export async function makeDir(path){
         path: path
     }})
 }
-export async function registerUser(user, register){
-    const res = await axios.post("/users",user,{params:{
-        register
-    }})
+export async function registerUser(user){
+    const res = await axios.post("/users",user)
+    const {data} = res
+    return data
+}
+
+export async function loginUser(user){
+    const res = await axios.post("/login",user)
     const {data} = res
     return data
 }

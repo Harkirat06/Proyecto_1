@@ -13,7 +13,7 @@ function StateProvider({ context, children }) {
     const [username, setUsername] = useState("")
     const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
-    const [register,setRegister] = useState(true)
+    const [login,setLogin] = useState(true)
     useEffect(async () => {
         const {dat, newPath} = await getContent(path)
         setArchivos(dat)
@@ -23,7 +23,7 @@ function StateProvider({ context, children }) {
     const contextValue = useMemo(() => ({
         archivos, setRefrescar, progress, setProgress,
         finish, setFinish, error, setError, doc, setDoc,
-        path, setPath,refrescar,register,setRegister,
+        path, setPath,refrescar,login,setLogin,
         username, setUsername,password,setPassword,
         email,setEmail
     }), [
@@ -34,7 +34,7 @@ function StateProvider({ context, children }) {
         error,
         doc,
         path,
-        register,
+        login,
         username,
         password,
         email
