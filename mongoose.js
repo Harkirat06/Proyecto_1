@@ -1,6 +1,7 @@
 const mongoose = require("mongoose")
+const dotenv = require('dotenv').config()
 
-const conectionString = "mongodb+srv://Harkirat97:Jailbreakios8@cluster0.id8b622.mongodb.net/app?retryWrites=true&w=majority"
+const conectionString = process.env.MONGO
 
 mongoose.connect(conectionString)
 .then(()=>console.log("Base de datos conectada"))

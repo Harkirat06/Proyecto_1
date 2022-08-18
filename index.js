@@ -2,6 +2,7 @@ require("./mongoose")
 const dotenv = require('dotenv').config()
 const express = require('express')
 const multer = require('multer')
+const jwt = require("jsonwebtoken")
 const p = require('path')
 const fs = require('fs')
 const del = require('del')
@@ -72,7 +73,7 @@ const lista = (dirPath, data) => {
   } catch (e) { }
 }
 
-server.post("/uploadFile", upload.array('docs'), async (req, res) => {
+server.post("/uploadFile", upload.array('docs'), async (req, res,next) => {
   const { files } = req
   console.log(files)
   if (!files) {
@@ -81,18 +82,26 @@ server.post("/uploadFile", upload.array('docs'), async (req, res) => {
     res.sendStatus(200)
   }
 })
-server.get("/content", (req, res) => {
+server.get("/content", (req, res,next) => {
   const path = req.query.path
-  if (path !== "") {
-    const data = []
-    lista("." + path, data)
-    res.json(data);
-  } else {
-    res.sendStatus(403)
+  const authorization = req.get("authorization")
+  let token = null
+  if(authorization && authorization.toLowerCase().startsWith("bearer")){
+    token = authorization.substring(7)
+  }
+  if(token){
+    const decodedToken = jwt.verify(token, process.env.TOKEN)
+    if (path !== "") {
+      const data = []
+      lista("." + path, data)
+      res.json(data);
+    }
+  }else{
+    res.status(403).json([])
   }
 })
 
-server.get("/download", async(req, res) => {
+server.get("/download", async(req, res,next) => {
   if (req.query.directory) {
     const p = "." + req.query.path
     const title = req.query.title + ".zip"
@@ -114,17 +123,17 @@ server.get("/download", async(req, res) => {
   }
 })
 
-server.delete("/delete",(req,res)=>{
+server.delete("/delete",(req,res,next)=>{
   const path = "." + req.query.path
   console.log("Estoy eliminando " + path)
   eliminarArchivos(path)
   res.sendStatus(200)
 })
 
-server.get("/public/:id", (req, res) => {
+server.get("/public/:id", (req, res,next) => {
   res.sendFile(__dirname + "/public/" + req.params.id)
 })
-server.post("/createDir",(req,res)=>{
+server.post("/createDir",(req,res,next)=>{
   const path = "." + req.query.path + "/Nueva Carpeta "
   try {
     if (!fs.existsSync(path + n)){
@@ -140,6 +149,6 @@ server.post("/createDir",(req,res)=>{
 })
 server.use("/users", usersRouter)
 server.use("/login", loginRouter)
-server.listen(PORT, () => {
+server.listen(PORT,() => {
   console.log("Server Iniciado")
 })

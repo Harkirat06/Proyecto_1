@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { getContent } from './Axios'
+
 
 function StateProvider({ context, children }) {
     const StateContext = context
@@ -14,18 +14,13 @@ function StateProvider({ context, children }) {
     const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
     const [login,setLogin] = useState(true)
-    useEffect(async () => {
-        const {dat, newPath} = await getContent(path)
-        setArchivos(dat)
-        setPath(newPath)
-    }, [refrescar, path])
-
+    
     const contextValue = useMemo(() => ({
         archivos, setRefrescar, progress, setProgress,
         finish, setFinish, error, setError, doc, setDoc,
         path, setPath,refrescar,login,setLogin,
         username, setUsername,password,setPassword,
-        email,setEmail
+        email,setEmail, setArchivos
     }), [
         archivos,
         refrescar,

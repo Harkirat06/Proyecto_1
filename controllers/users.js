@@ -15,30 +15,11 @@ usersRouter.post("/", async (req, res) => {
     ).then( async (result) => {
       console.log(result)
          if (result.length >= 1) {
-            res.json("Usuario o email ya registrado")
+            res.status(406).json("Usuario o email ya registrado")
          } else {
             const savedUser = await user.save()
-            res.json(savedUser)
+            res.status(201).json(savedUser)
          }
       })
-   /*const login = req.query.login
-   User.find({ userName: userName}).then(async result => {
-      result.map(s=>{
-         bcrypt.compare(password,s.passwordHash,async (err,r)=>{
-            console.log(r)
-            if (r) {
-               res.json({Logged: "true"})
-            }else{
-               if(login==="false"){
-                  const savedUser = await user.save()
-                  res.json(savedUser)
-               }else{
-                  res.json({account: "Account Not Found"})
-               }
-            }
-            
-         })
-      })
-   })*/
 })
 module.exports = usersRouter

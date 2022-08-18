@@ -1,16 +1,18 @@
 import React, { useContext } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css"
 import { Container, Row, Col, Form, FormLabel, Button } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate} from 'react-router-dom'
 import { BsGoogle } from "react-icons/bs"
 import "./Login.css"
 import { loginUser, registerUser } from './Axios'
 
 
+
 function Login({ context }) {
     const white = { color: "white" }
     const { login, setLogin, username, setUsername, password, setPassword, email, setEmail } = useContext(context)
-    const registrar = () => { 
+    const navigate = useNavigate()
+    const registrar = () => {
         setLogin(prev => !prev)
         setEmail("")
         setPassword("")
@@ -32,12 +34,18 @@ function Login({ context }) {
             email,
             password
         }
-        if(login){
-            const usuario = await loginUser(newUser)
-            console.log(usuario)
-        }else{
+        if (login) {
+                const usuario = await loginUser(newUser)
+                console.log(usuario)
+                if(usuario.status==202){
+                    navigate('/cloud')
+                }
+        } else {
             const usuario = await registerUser(newUser)
-            console.log(usuario)
+            if(usuario.status===201){
+                console.log("Usuario creado")
+                registrar()
+            }
         }
         setEmail("")
         setPassword("")

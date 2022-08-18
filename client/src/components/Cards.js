@@ -1,13 +1,19 @@
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import "bootstrap/dist/css/bootstrap.min.css"
 import Card from "./Card"
 import { AiOutlineReload } from "react-icons/ai"
 import { FaLevelUpAlt } from "react-icons/fa"
 import { MdCreateNewFolder } from "react-icons/md"
-import { makeDir } from "./Axios"
+import { makeDir, getContent } from "./Axios"
 
 function Cards({ context }) {
-    const { archivos, setRefrescar, setPath, path} = useContext(context)
+    const { archivos, setRefrescar, setPath, path, setArchivos, refrescar} = useContext(context)
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZmU3NWNlNmQ4Y2Q2YWM5ZjU1NmVhOCIsInVzZXJuYW1lIjoiIiwiaWF0IjoxNjYwODQ3ODgwfQ.RkyLGiN7Vyg-TOxD1GIv_xrzfG-EwcsHyLdJtgiuzsg"
+    useEffect(async () => {
+        const {dat, newPath} = await getContent(path, token)
+        setArchivos(dat)
+        setPath(newPath)
+    }, [refrescar, path])
     let i = 0
     const subir = () => {
         let index = path.lastIndexOf("/")
