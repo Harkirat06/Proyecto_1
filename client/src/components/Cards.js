@@ -8,7 +8,7 @@ import { makeDir, getContent } from "./Axios"
 
 function Cards({ context }) {
     const { archivos, setRefrescar, setPath, path, setArchivos, refrescar} = useContext(context)
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZmU3NWNlNmQ4Y2Q2YWM5ZjU1NmVhOCIsInVzZXJuYW1lIjoiIiwiaWF0IjoxNjYwODQ3ODgwfQ.RkyLGiN7Vyg-TOxD1GIv_xrzfG-EwcsHyLdJtgiuzsg"
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZmU3NWNlNmQ4Y2Q2YWM5ZjU1NmVhOCIsInVzZXJuYW1lIjoiIiwiaWF0IjoxNjYwOTM4MjQzLCJleHAiOjE2NjE1NDMwNDN9.O097_86apihubnIZeCmUePFuIIC9_M4ZC4doTLDQAks"
     useEffect(async () => {
         const {dat, newPath} = await getContent(path, token)
         setArchivos(dat)

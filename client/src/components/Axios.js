@@ -13,10 +13,13 @@ export async function getContent(path, token) {
             const { response } = e
             return response
         })
-        const dat = response.data
+        let dat = []
         const newPath = path
         const status = response.status
-        return { dat, newPath, status}
+        if(status!==401){
+            dat = response.data
+        }
+        return { dat, newPath}
     } else {
         const newPath = path + "/uploads"
         const arr = []

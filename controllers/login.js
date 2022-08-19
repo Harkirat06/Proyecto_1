@@ -3,8 +3,6 @@ const dotenv = require('dotenv').config()
 const bcrypt = require("bcrypt")
 const User = require("../models/Users")
 const loginRouter = require("express").Router()
-const express = require('express')
-loginRouter.use(express.json())
 
 loginRouter.post("/", async (req, res, next) => {
 const { body } = req
@@ -24,7 +22,9 @@ const { body } = req
             username: user.userName
         }
         
-        const token = jwt.sign(userToken, process.env.TOKEN)
+        const token = jwt.sign(userToken, process.env.TOKEN,{
+            expiresIn: 60*60*24*7
+        })
         return res.status(202).send({
             username: user.userName,
             token
