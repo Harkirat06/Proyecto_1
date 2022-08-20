@@ -8,17 +8,13 @@ const downloadRouter = require("./controllers/download")
 const deleteRouter = require("./controllers/delete")
 const contentRouter = require("./controllers/content")
 const dirRouter = require("./controllers/dir")
+const errorHandler = require("./middlewares/hadleErrors")
 
 const PORT = process.env.PORT || 5000
 
 const server = express()
 
 server.use(express.json())
-
-
-server.get("/public/:id", (req, res,next) => {
-  res.sendFile(__dirname + "/public/" + req.params.id)
-})
 
 server.use("/content", contentRouter)
 server.use("/users", usersRouter)
@@ -27,6 +23,8 @@ server.use("/uploadFile", uploaderRouter)
 server.use("/download", downloadRouter)
 server.use("/delete", deleteRouter)
 server.use("/createDir", dirRouter)
+server.use("/public", express.static("public"))
+server.use(errorHandler)
 server.listen(PORT,() => {
   console.log("Server Iniciado")
 })

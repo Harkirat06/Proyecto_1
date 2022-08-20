@@ -6,7 +6,7 @@ import axios from 'axios'
 
 export default function Uploader({ context }) {
     const { finish, setFinish, progress, setProgress, setRefrescar,
-        doc, setDoc, error, setError, path } = useContext(context)
+        doc, setDoc, error, setError, path, token } = useContext(context)
     const OnClick = (e) => {
         e.preventDefault()
         if (doc) {
@@ -19,6 +19,7 @@ export default function Uploader({ context }) {
                 onUploadProgress: data => {
                     setProgress(Math.round((100 * data.loaded) / data.total))
                 },
+                headers: {"Authorization" : `Bearer ${token}`},
                 params:{
                     path: path
                 }

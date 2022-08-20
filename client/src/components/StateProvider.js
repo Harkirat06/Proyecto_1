@@ -14,13 +14,14 @@ function StateProvider({ context, children }) {
     const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
     const [login,setLogin] = useState(true)
+    const [token, setToken] = useState("")
     
     const contextValue = useMemo(() => ({
         archivos, setRefrescar, progress, setProgress,
         finish, setFinish, error, setError, doc, setDoc,
         path, setPath,refrescar,login,setLogin,
         username, setUsername,password,setPassword,
-        email,setEmail, setArchivos
+        email,setEmail, setArchivos, token, setToken
     }), [
         archivos,
         refrescar,
@@ -32,7 +33,8 @@ function StateProvider({ context, children }) {
         login,
         username,
         password,
-        email
+        email,
+        token
     ]);
 
     return (

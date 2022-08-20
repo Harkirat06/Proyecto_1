@@ -7,8 +7,7 @@ import { MdCreateNewFolder } from "react-icons/md"
 import { makeDir, getContent } from "./Axios"
 
 function Cards({ context }) {
-    const { archivos, setRefrescar, setPath, path, setArchivos, refrescar} = useContext(context)
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZmU3NWNlNmQ4Y2Q2YWM5ZjU1NmVhOCIsInVzZXJuYW1lIjoiIiwiaWF0IjoxNjYwOTM4MjQzLCJleHAiOjE2NjE1NDMwNDN9.O097_86apihubnIZeCmUePFuIIC9_M4ZC4doTLDQAks"
+    const { archivos, setRefrescar, setPath, path, setArchivos, refrescar, token} = useContext(context)
     useEffect(async () => {
         const {dat, newPath} = await getContent(path, token)
         setArchivos(dat)
@@ -23,7 +22,7 @@ function Cards({ context }) {
         setRefrescar(prev => prev + 1)
     }
     const crearCarpeta = ()=>{
-        makeDir(path)
+        makeDir(path, token)
         setRefrescar(prev => prev + 1) 
     }
     return (

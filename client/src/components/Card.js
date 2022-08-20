@@ -7,7 +7,7 @@ import { Dropdown, Button } from "react-bootstrap"
 import "./Card.css"
 
 function Card({ title, context, directory }) {
-    const { setPath, path, setRefrescar } = useContext(context)
+    const { setPath, path, setRefrescar, token } = useContext(context)
     var extension = ""
     var imagen = "/public/img.jpg"
     if (title != title.split(".").pop()) {
@@ -52,10 +52,10 @@ function Card({ title, context, directory }) {
             break
     }
     const download = () => {
-        downloadFile(title, path + "/" + title, directory)
+        downloadFile(title, path + "/" + title, directory, token)
     }
     const deleteFile = () => {
-        deleteFiles(path + "/" + title).then((res) => {
+        deleteFiles(path + "/" + title, token).then((res) => {
             setRefrescar(prev => prev + 1)
         })
     }

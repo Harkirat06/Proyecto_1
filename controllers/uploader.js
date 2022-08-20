@@ -1,4 +1,5 @@
 const multer = require('multer')
+const tokenExtractor = require("../middlewares/tokenExtractor")
 const uploaderRouter = require("express").Router()
 
 const storage = multer.diskStorage({
@@ -21,7 +22,7 @@ const storage = multer.diskStorage({
     limits: { fileSize: 10000000000 },
   })
 
-  uploaderRouter.post("/", upload.array('docs'), async (req, res,next) => {
+  uploaderRouter.post("/",tokenExtractor, upload.array('docs'), async (req, res,next) => {
     const { files } = req
     console.log(files)
     if (!files) {

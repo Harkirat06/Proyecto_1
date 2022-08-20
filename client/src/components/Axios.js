@@ -27,11 +27,12 @@ export async function getContent(path, token) {
     }
 }
 
-export async function downloadFile(title, path, directory) {
+export async function downloadFile(title, path, directory, token) {
     await Axios({
         url: "/download",
         method: "GET",
         responseType: "blob",
+        headers: {"Authorization" : `Bearer ${token}`},
         params: {
             title: title,
             path: path,
@@ -47,21 +48,24 @@ export async function downloadFile(title, path, directory) {
     })
 }
 
-export async function deleteFiles(path) {
+export async function deleteFiles(path, token) {
     return axios.delete("/delete", {
+        headers: {"Authorization" : `Bearer ${token}`},
         params: {
             path: path
         }
     })
 }
 
-export async function makeDir(path) {
+export async function makeDir(path, token) {
     await axios.post("/createDir", null, {
+        headers: {"Authorization" : `Bearer ${token}`},
         params: {
             path: path
         }
     })
 }
+
 export async function registerUser(user) {
     const res = await axios.post("/users", user).catch((e) => {
         const { response } = e

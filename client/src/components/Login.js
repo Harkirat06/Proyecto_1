@@ -10,7 +10,7 @@ import { loginUser, registerUser } from './Axios'
 
 function Login({ context }) {
     const white = { color: "white" }
-    const { login, setLogin, username, setUsername, password, setPassword, email, setEmail } = useContext(context)
+    const { login, setLogin, username, setUsername, password, setPassword, email, setEmail , setToken} = useContext(context)
     const navigate = useNavigate()
     const registrar = () => {
         setLogin(prev => !prev)
@@ -38,6 +38,7 @@ function Login({ context }) {
                 const usuario = await loginUser(newUser)
                 console.log(usuario)
                 if(usuario.status==202){
+                    setToken(usuario.data.token)
                     navigate('/cloud')
                 }
         } else {

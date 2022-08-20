@@ -16,18 +16,3 @@ userSchema.set("toJSON",{
 
 
  module.exports = User
-
-  /*User.find({}).then(result=>{
-    console.log(result)
-    mongoose.connection.close()
-})
- const user1 = new User({
-    userName: "Harkirat",
-    email: "khalsaharkirat97@gmail.com",
-    password: "123"
- })
-
- user1.save().then(result=>{
-    console.log(result)
-    mongoose.connection.close()
- })*/
