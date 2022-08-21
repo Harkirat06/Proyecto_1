@@ -5,6 +5,7 @@ import { BsCloudDownloadFill, BsThreeDotsVertical } from "react-icons/bs";
 import { MdDelete } from "react-icons/md"
 import { Dropdown, Button } from "react-bootstrap"
 import "./Card.css"
+import "./NotFound.css"
 
 function Card({ title, context, directory }) {
     const { setPath, path, setRefrescar, token } = useContext(context)
@@ -68,7 +69,7 @@ function Card({ title, context, directory }) {
                 <h6 className="card-title" data-toggle="tooltip" data-placement="right" title={title}>{title}</h6>
             </div>
             <div className="card-footer">
-                <Button style={{display:"inline"}} variant="outline-primary" onClick={download}><h6><BsCloudDownloadFill /></h6></Button>
+                <Button variant="outline-primary" onClick={download}><BsCloudDownloadFill className="icon" /></Button>
                 <Dropdown style={{
                     float: "right"
                 }} key="end" drop="end" >
@@ -76,7 +77,7 @@ function Card({ title, context, directory }) {
                         <h4><BsThreeDotsVertical /></h4>
                     </Dropdown.Toggle>
                     <Dropdown.Menu variant="dark">
-                        <Dropdown.Item id="delete" as="button" onClick={deleteFile}><h5 style={{display:"inline"}}><MdDelete /></h5> Delete</Dropdown.Item>
+                        <Dropdown.Item id="delete" as="button" onClick={deleteFile}><MdDelete  className="icon"/> Delete</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             </div>

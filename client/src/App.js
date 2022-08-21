@@ -7,10 +7,8 @@ import StateProvider from './components/StateProvider'
 import { createContext } from 'react'
 import Cards from './components/Cards'
 import Login from './components/Login'
+import NotFound from './components/NotFound'
 
-function NotFound() {
-  return <>Ha llegado a una página que no existe</>;
-}
 function App() {
   const StateContext = createContext()
   return (
@@ -25,7 +23,7 @@ function App() {
               <Cards context={StateContext} />
             </div>
           } />
-          <Route path="*" component={NotFound}/>
+          <Route path="*" element={<NotFound/>}/>
         </Routes>
       </StateProvider>
     </BrowserRouter>

@@ -89,16 +89,11 @@ function Login({ context }) {
                             }
                         </div>
                     </Form>
-                    <Container className='w-100 my-5'>
-                        <Row>
-                            <Col>{login &&
-                                <Button variant="outline-danger" className="w-100 my-1 text-center">
-                                    <BsGoogle style={{ verticalAlign: "middle" }} /> Login with Google
+                    {login &&
+                                <Button variant="outline-danger" className=" w-100 my-1">
+                                    <BsGoogle className='icon'/> Login with Google
                                 </Button>
                             }
-                            </Col>
-                        </Row>
-                    </Container>
                 </Col>
             </Row>
         </Container>

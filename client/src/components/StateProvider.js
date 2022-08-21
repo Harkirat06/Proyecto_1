@@ -15,7 +15,16 @@ function StateProvider({ context, children }) {
     const [password,setPassword] = useState("")
     const [login,setLogin] = useState(true)
     const [token, setToken] = useState("")
+    const [remind, setRemind] = useState(false)
     
+    /*
+    useEffect(()=>{
+        const t = localStorage.getItem("token")
+        if(t){
+
+        }
+    },[remind])*/
+
     const contextValue = useMemo(() => ({
         archivos, setRefrescar, progress, setProgress,
         finish, setFinish, error, setError, doc, setDoc,

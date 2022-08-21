@@ -38,7 +38,7 @@ function Cards({ context }) {
                     overflow: "hidden",
                     float: "right"
                 }} className="btn btn-primary" onClick={() => setRefrescar(prev => prev + 1)}>
-                    <h4><AiOutlineReload style={{verticalAlign: "middle"}} /></h4>
+                    <h5><AiOutlineReload style={{verticalAlign: "middle", marginTop:"8px"}} /></h5>
                 </button>
             </div>
             <div className="container justify-content-center align-items-center">
