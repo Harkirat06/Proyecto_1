@@ -5,13 +5,24 @@ import { AiOutlineReload } from "react-icons/ai"
 import { FaLevelUpAlt } from "react-icons/fa"
 import { MdCreateNewFolder } from "react-icons/md"
 import { makeDir, getContent } from "./Axios"
+import { useNavigate } from "react-router-dom"
 
 function Cards({ context }) {
-    const { archivos, setRefrescar, setPath, path, setArchivos, refrescar, token} = useContext(context)
+    const { archivos, setRefrescar, setPath, path, setArchivos, refrescar, token, remind } = useContext(context)
+    const navigate = useNavigate()
     useEffect(async () => {
-        const {dat, newPath} = await getContent(path, token)
-        setArchivos(dat)
-        setPath(newPath)
+        console.log(token)
+        if(token) {
+            const { dat, newPath, status } = await getContent(path, token)
+            setArchivos(dat)
+            setPath(newPath)
+            if(status===401){
+                navigate("/")
+            }
+        }else{
+            navigate("/")
+        }
+        
     }, [refrescar, path])
     let i = 0
     const subir = () => {
@@ -21,24 +32,24 @@ function Cards({ context }) {
         setPath(cadena)
         setRefrescar(prev => prev + 1)
     }
-    const crearCarpeta = ()=>{
+    const crearCarpeta = () => {
         makeDir(path, token)
-        setRefrescar(prev => prev + 1) 
+        setRefrescar(prev => prev + 1)
     }
     return (
         <div>
             <div style={{ margin: 20 }}>
                 <button type="button" className="btn btn-primary" onClick={subir}>
-                    <h4><FaLevelUpAlt style={{verticalAlign: "middle"}} /></h4>
+                    <h4><FaLevelUpAlt style={{ verticalAlign: "middle" }} /></h4>
                 </button>
-                <button style={{marginLeft:20}} type="button" className="btn btn-info" onClick={crearCarpeta}>
+                <button style={{ marginLeft: 20 }} type="button" className="btn btn-info" onClick={crearCarpeta}>
                     <h4><MdCreateNewFolder /></h4>
                 </button>
                 <button type="button" style={{
                     overflow: "hidden",
                     float: "right"
                 }} className="btn btn-primary" onClick={() => setRefrescar(prev => prev + 1)}>
-                    <h5><AiOutlineReload style={{verticalAlign: "middle", marginTop:"8px"}} /></h5>
+                    <h5><AiOutlineReload style={{ verticalAlign: "middle", marginTop: "8px" }} /></h5>
                 </button>
             </div>
             <div className="container justify-content-center align-items-center">

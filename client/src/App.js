@@ -18,7 +18,7 @@ function App() {
           <Route exact path="/" element={<Login context={StateContext}/>} />
           <Route path="/cloud" element={
             <div>
-              <Navigation />
+              <Navigation context={StateContext} />
               <Uploader context={StateContext} />
               <Cards context={StateContext} />
             </div>

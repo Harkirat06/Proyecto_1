@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
-
+import React, { useState, useMemo, useEffect} from 'react'
 
 function StateProvider({ context, children }) {
     const StateContext = context
@@ -14,23 +13,22 @@ function StateProvider({ context, children }) {
     const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
     const [login,setLogin] = useState(true)
-    const [token, setToken] = useState("")
-    const [remind, setRemind] = useState(false)
-    
-    /*
-    useEffect(()=>{
-        const t = localStorage.getItem("token")
-        if(t){
+    const [token, setToken] = useState(localStorage.getItem("token"))
+    const [remind, setRemind] = useState(true)
 
+    window.onbeforeunload = ()=>{
+        if(!remind){
+            localStorage.removeItem("token")
         }
-    },[remind])*/
+    }
 
     const contextValue = useMemo(() => ({
         archivos, setRefrescar, progress, setProgress,
         finish, setFinish, error, setError, doc, setDoc,
         path, setPath,refrescar,login,setLogin,
         username, setUsername,password,setPassword,
-        email,setEmail, setArchivos, token, setToken
+        email,setEmail, setArchivos, token, setToken,
+        remind, setRemind
     }), [
         archivos,
         refrescar,
@@ -43,7 +41,8 @@ function StateProvider({ context, children }) {
         username,
         password,
         email,
-        token
+        token,
+        remind
     ]);
 
     return (

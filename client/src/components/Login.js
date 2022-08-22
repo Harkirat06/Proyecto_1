@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css"
 import { Container, Row, Col, Form, FormLabel, Button } from 'react-bootstrap'
 import { Link, useNavigate} from 'react-router-dom'
@@ -10,8 +10,14 @@ import { loginUser, registerUser } from './Axios'
 
 function Login({ context }) {
     const white = { color: "white" }
-    const { login, setLogin, username, setUsername, password, setPassword, email, setEmail , setToken} = useContext(context)
+    const { login, setLogin, username, setUsername, password, setPassword,
+         email, setEmail , setToken, remind, token, setRemind} = useContext(context)
     const navigate = useNavigate()
+    useEffect(()=>{
+        if(token && remind){ 
+            navigate("/cloud")
+        }
+    },[])
     const registrar = () => {
         setLogin(prev => !prev)
         setEmail("")
@@ -27,6 +33,10 @@ function Login({ context }) {
     const valuePassword = (e) => {
         setPassword(e.target.value)
     }
+    const handleOnChange = ()=>{
+        setRemind(prev => !prev)
+        console.log(remind)
+    }
     const submit = async (e) => {
         e.preventDefault()
         const newUser = {
@@ -38,7 +48,9 @@ function Login({ context }) {
                 const usuario = await loginUser(newUser)
                 console.log(usuario)
                 if(usuario.status==202){
-                    setToken(usuario.data.token)
+                    const t = usuario.data.token
+                    setToken(t)
+                    localStorage.setItem("token",t)
                     navigate('/cloud')
                 }
         } else {
@@ -77,7 +89,7 @@ function Login({ context }) {
                             <Form.Control type="password" placeholder="Password" onChange={valuePassword} value={password} />
                         </div>{login &&
                             <div className='mb-4'>
-                                <Form.Check type="checkbox" label="Mantener sesión" style={white} />
+                                <Form.Check type="checkbox" label="Mantener sesión" style={white} onChange={handleOnChange} />
                             </div>}
                         <div className='d-grid'>
                             <Button type='submit' variant="primary" onClick={submit}>{login ? "Login" : "Sign Up"}</Button>

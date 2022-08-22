@@ -19,11 +19,11 @@ export async function getContent(path, token) {
         if(status!==401){
             dat = response.data
         }
-        return { dat, newPath}
+        return { dat, newPath, status}
     } else {
         const newPath = path + "/uploads"
         const arr = []
-        return { arr, newPath }
+        return { arr, newPath}
     }
 }
 
@@ -81,5 +81,6 @@ export async function loginUser(user) {
     })
     return res
 }
+
 
 
