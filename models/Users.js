@@ -2,7 +2,9 @@ const {Schema, model} = require("mongoose")
 const userSchema = new Schema({
     userName: String,
     email: String,
-    passwordHash: String
+    passwordHash: String,
+    google: Boolean,
+    remind: Boolean
 })
 userSchema.set("toJSON",{
    transform: (document, returnedObject) => {

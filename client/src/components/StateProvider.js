@@ -14,21 +14,13 @@ function StateProvider({ context, children }) {
     const [password,setPassword] = useState("")
     const [login,setLogin] = useState(true)
     const [token, setToken] = useState(localStorage.getItem("token"))
-    const [remind, setRemind] = useState(true)
-
-    window.onbeforeunload = ()=>{
-        if(!remind){
-            localStorage.removeItem("token")
-        }
-    }
 
     const contextValue = useMemo(() => ({
         archivos, setRefrescar, progress, setProgress,
         finish, setFinish, error, setError, doc, setDoc,
         path, setPath,refrescar,login,setLogin,
         username, setUsername,password,setPassword,
-        email,setEmail, setArchivos, token, setToken,
-        remind, setRemind
+        email,setEmail, setArchivos, token, setToken
     }), [
         archivos,
         refrescar,
@@ -41,8 +33,7 @@ function StateProvider({ context, children }) {
         username,
         password,
         email,
-        token,
-        remind
+        token
     ]);
 
     return (

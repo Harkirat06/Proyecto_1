@@ -11,7 +11,7 @@ const ERROR_HANDLER = {
     res.status(500).end()
 }
 const errorHandler = (error, req, res, next)=>{
-    console.log(error.name)
+    console.log(error)
     const handler = 
     ERROR_HANDLER[error.code] || ERROR_HANDLER[error.name] || ERROR_HANDLER.defaultError
     handler(res, error)

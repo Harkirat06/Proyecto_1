@@ -4,12 +4,14 @@ const bcrypt = require("bcrypt")
 
 usersRouter.post("/", async (req, res) => {
    const { body } = req
-   const { userName, email, password } = body
+   const { userName, email, password, google, remind} = body
    const passwordHash = await bcrypt.hash(password, 10)
    const user = new User({
       userName,
       email,
-      passwordHash
+      passwordHash, 
+      google, 
+      remind
    })
     User.find({$or: [{ userName: userName},{email: email}]}
     ).then( async (result) => {

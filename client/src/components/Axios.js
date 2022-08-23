@@ -16,10 +16,11 @@ export async function getContent(path, token) {
         let dat = []
         const newPath = path
         const status = response.status
+        const rem = response.data.remind
         if(status!==401){
-            dat = response.data
+            dat = response.data.data
         }
-        return { dat, newPath, status}
+        return { dat, newPath, status, rem}
     } else {
         const newPath = path + "/uploads"
         const arr = []

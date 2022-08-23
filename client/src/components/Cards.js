@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
 import "bootstrap/dist/css/bootstrap.min.css"
 import Card from "./Card"
 import { AiOutlineReload } from "react-icons/ai"
@@ -8,16 +8,24 @@ import { makeDir, getContent } from "./Axios"
 import { useNavigate } from "react-router-dom"
 
 function Cards({ context }) {
-    const { archivos, setRefrescar, setPath, path, setArchivos, refrescar, token, remind } = useContext(context)
+    const { archivos, setRefrescar, setPath, path, setArchivos, refrescar, token} = useContext(context)
     const navigate = useNavigate()
+    const[remind, setRemind] = useState(false)
     useEffect(async () => {
-        console.log(token)
-        if(token) {
-            const { dat, newPath, status } = await getContent(path, token)
+        if(token!==undefined && token!==null) {
+            const { dat, newPath, status, rem} = await getContent(path, token)
             setArchivos(dat)
             setPath(newPath)
+            setRemind(rem)
+            console.log(remind)
             if(status===401){
                 navigate("/")
+            }else{
+                window.onbeforeunload = ()=>{
+                    if(!remind){
+                        localStorage.removeItem("token")
+                    }
+                }
             }
         }else{
             navigate("/")

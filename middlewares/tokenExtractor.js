@@ -13,11 +13,8 @@ const tokenExtractor = (req, res, next)=>{
     } catch (error) {
         next(error)
     }
-    
-    const {id: userId} = decodedToken
-
-    req.userId = userId
-
+    const{username} = decodedToken
+    req.username = username
     next()
 }
 module.exports = tokenExtractor
