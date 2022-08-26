@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect} from 'react'
+import React, { useState, useMemo} from 'react'
 
 function StateProvider({ context, children }) {
     const StateContext = context
@@ -14,6 +14,7 @@ function StateProvider({ context, children }) {
     const [password,setPassword] = useState("")
     const [login,setLogin] = useState(true)
     const [token, setToken] = useState(localStorage.getItem("token"))
+   
 
     const contextValue = useMemo(() => ({
         archivos, setRefrescar, progress, setProgress,

@@ -13,10 +13,9 @@ function Login({ context }) {
     const { login, setLogin, username, setUsername, password, setPassword,
         email, setEmail, setToken, token} = useContext(context)
 
+    const [remind, setRemind] = useState(false)
     const navigate = useNavigate()
     const googlebuttonref = useRef()
-
-    const [remind, setRemind] = useState(false)
 
     const onGoogleSignIn = async(res) => {
         let userCred = res.credential
@@ -78,7 +77,7 @@ function Login({ context }) {
         setPassword(e.target.value)
     }
     const handleOnChange = () => {
-        setRemind(prev => !prev)
+        setRemind(!remind)
         console.log(remind)
     }
     const submit = async (e) => {

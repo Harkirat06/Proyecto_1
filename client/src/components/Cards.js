@@ -10,20 +10,19 @@ import { useNavigate } from "react-router-dom"
 function Cards({ context }) {
     const { archivos, setRefrescar, setPath, path, setArchivos, refrescar, token} = useContext(context)
     const navigate = useNavigate()
-    const[remind, setRemind] = useState(false)
     useEffect(async () => {
         if(token!==undefined && token!==null) {
             const { dat, newPath, status, rem} = await getContent(path, token)
             setArchivos(dat)
             setPath(newPath)
-            setRemind(rem)
-            console.log(remind)
             if(status===401){
                 navigate("/")
             }else{
-                window.onbeforeunload = ()=>{
-                    if(!remind){
-                        localStorage.removeItem("token")
+                console.log(rem)
+                window.onclose = ()=>{
+                    if(!rem){
+                        Window.localStorage.removeItem("token")
+                        return ""
                     }
                 }
             }

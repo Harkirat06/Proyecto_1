@@ -20,6 +20,8 @@ loginRouter.post("/", async (req, res, next) => {
                 expiresIn: 60 * 60 * 24 * 7
             })
             user.remind = remind
+            console.log(remind)
+            console.log(user.remind)
             user.save()
             return res.status(202).send({
                 username: user.userName,
