@@ -6,22 +6,26 @@ import { FaLevelUpAlt } from "react-icons/fa"
 import { MdCreateNewFolder } from "react-icons/md"
 import { makeDir, getContent } from "./Axios"
 import { useNavigate } from "react-router-dom"
+import { googleLogout } from '@react-oauth/google'
 
 function Cards({ context }) {
     const { archivos, setRefrescar, setPath, path, setArchivos, refrescar, token} = useContext(context)
     const navigate = useNavigate()
+    const[remind, setRemind] = useState(false)
     useEffect(async () => {
         if(token!==undefined && token!==null) {
             const { dat, newPath, status, rem} = await getContent(path, token)
             setArchivos(dat)
             setPath(newPath)
+            setRemind(rem)
             if(status===401){
                 navigate("/")
             }else{
-                console.log(rem)
-                window.onclose = ()=>{
-                    if(!rem){
-                        Window.localStorage.removeItem("token")
+                console.log(remind)
+                if(rem===false){
+                    window.onbeforeunload = ()=>{
+                        window.localStorage.removeItem("token")
+                        googleLogout()
                         return ""
                     }
                 }

@@ -2,11 +2,13 @@ import React, { useContext } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css"
 import { Navbar, Container, Nav, Button} from 'react-bootstrap'
 import { useNavigate , Link} from 'react-router-dom'
+import { googleLogout } from '@react-oauth/google'
 
 export default function Navigation({context}) {
   const navigate = useNavigate()
   const {setToken} = useContext(context)
   const onClick = ()=>{
+    googleLogout()
     localStorage.removeItem("token")
     setToken(null)
     navigate("/")

@@ -8,23 +8,26 @@ import { createContext, useEffect } from 'react'
 import Cards from './components/Cards'
 import Login from './components/Login'
 import NotFound from './components/NotFound'
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 function App() {
   const StateContext = createContext()
   return (
     <BrowserRouter id="App">
       <StateProvider context={StateContext}>
-        <Routes>
-          <Route exact path="/" element={<Login context={StateContext} />} />
-          <Route path="/cloud" element={
-            <div>
-              <Navigation context={StateContext} />
-              <Uploader context={StateContext} />
-              <Cards context={StateContext} />
-            </div>
-          } />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT}>
+          <Routes>
+            <Route exact path="/" element={<Login context={StateContext} />} />
+            <Route path="/cloud" element={
+              <div>
+                <Navigation context={StateContext} />
+                <Uploader context={StateContext} />
+                <Cards context={StateContext} />
+              </div>
+            } />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </GoogleOAuthProvider>
       </StateProvider>
     </BrowserRouter>
   )

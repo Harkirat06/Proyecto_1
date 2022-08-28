@@ -1,29 +1,29 @@
-import React, { useContext, useEffect, useRef , useState} from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css"
 import { Container, Row, Col, Form, FormLabel, Button } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import "./Login.css"
 import { loginUser, registerUser } from './Axios'
-import { useScript } from "./useScript"
 import jwt_decode from "jwt-decode"
-
+import { GoogleLogin } from '@react-oauth/google'
 
 function Login({ context }) {
     const white = { color: "white" }
     const { login, setLogin, username, setUsername, password, setPassword,
-        email, setEmail, setToken, token} = useContext(context)
+        email, setEmail, setToken, token } = useContext(context)
 
     const [remind, setRemind] = useState(false)
     const navigate = useNavigate()
-    const googlebuttonref = useRef()
 
-    const onGoogleSignIn = async(res) => {
+
+    const onGoogleSignIn = async (res) => {
         let userCred = res.credential
+        console.log(userCred)
         let payload = jwt_decode(userCred)
         const newUser = {
             userName: payload.name,
             email: payload.email,
-            password: "", 
+            password: "",
             google: true,
             remind
         }
@@ -34,9 +34,8 @@ function Login({ context }) {
             const t = usuario.data.token
             setToken(t)
             localStorage.setItem("token", t)
-            console.log(remind)
             navigate('/cloud')
-        }else{
+        } else {
             usuario = await loginUser(newUser)
             const t = usuario.data.token
             setToken(t)
@@ -44,19 +43,9 @@ function Login({ context }) {
             navigate('/cloud')
         }
     }
-    useScript("https://accounts.google.com/gsi/client", () => {
-        window.google.accounts.id.initialize({
-            client_id: "277525803589-vb0sp7b770mb022m5ddgc19ih6u24vhq.apps.googleusercontent.com", // here's your Google ID
-            callback: onGoogleSignIn,
-            auto_select: false,
-        })
-        window.google.accounts.id.renderButton(googlebuttonref.current, {
-            size: "large",
-        })
-    })
-
+    
     useEffect(() => {
-        if (token!==undefined && token!=null) {
+        if (token !== undefined && token != null) {
             navigate("/cloud")
         }
     }, [])
@@ -149,7 +138,14 @@ function Login({ context }) {
                             }
                         </div>
                     </Form>
-                    {login && <div ref={googlebuttonref}></div>}
+                    <GoogleLogin
+                        onSuccess={onGoogleSignIn}
+                        onError={() => {
+                            console.log('Login Failed');
+                        }}
+                        useOneTap
+                        auto_select
+                    />
                 </Col>
             </Row>
         </Container>
