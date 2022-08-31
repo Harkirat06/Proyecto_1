@@ -11,30 +11,31 @@ import { googleLogout } from '@react-oauth/google'
 function Cards({ context }) {
     const { archivos, setRefrescar, setPath, path, setArchivos, refrescar, token} = useContext(context)
     const navigate = useNavigate()
-    const[remind, setRemind] = useState(false)
     useEffect(async () => {
         if(token!==undefined && token!==null) {
-            const { dat, newPath, status, rem} = await getContent(path, token)
+            const { dat, newPath, status} = await getContent(path, token)
             setArchivos(dat)
             setPath(newPath)
-            setRemind(rem)
             if(status===401){
                 navigate("/")
-            }else{
-                console.log(remind)
-                if(rem===false){
-                    window.onbeforeunload = ()=>{
-                        window.localStorage.removeItem("token")
-                        googleLogout()
-                        return ""
-                    }
-                }
             }
         }else{
             navigate("/")
         }
-        
     }, [refrescar, path])
+
+    useEffect(()=>{
+        console.log(localStorage.getItem("remind"))
+        const remind = localStorage.getItem("remind")
+        if(remind==="false"){
+            window.addEventListener("beforeunload", (event)=>{
+                    window.localStorage.removeItem("token")
+                    googleLogout()
+                    console.log(event)
+                    event.returnValue = ""
+            })
+        }
+    },[])
     let i = 0
     const subir = () => {
         let index = path.lastIndexOf("/")

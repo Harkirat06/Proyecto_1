@@ -10,12 +10,10 @@ import { GoogleLogin } from '@react-oauth/google'
 function Login({ context }) {
     const white = { color: "white" }
     const { login, setLogin, username, setUsername, password, setPassword,
-        email, setEmail, setToken, token } = useContext(context)
-
+        email, setEmail, setToken, token} = useContext(context)
+    
     const [remind, setRemind] = useState(false)
     const navigate = useNavigate()
-
-
     const onGoogleSignIn = async (res) => {
         let userCred = res.credential
         console.log(userCred)
@@ -24,8 +22,7 @@ function Login({ context }) {
             userName: payload.name,
             email: payload.email,
             password: "",
-            google: true,
-            remind
+            google: true
         }
         let usuario = await registerUser(newUser)
         if (usuario.status === 201) {
@@ -34,12 +31,14 @@ function Login({ context }) {
             const t = usuario.data.token
             setToken(t)
             localStorage.setItem("token", t)
+            localStorage.setItem("remind", remind)
             navigate('/cloud')
         } else {
             usuario = await loginUser(newUser)
             const t = usuario.data.token
             setToken(t)
             localStorage.setItem("token", t)
+            localStorage.setItem("remind", remind)
             navigate('/cloud')
         }
     }
@@ -65,8 +64,8 @@ function Login({ context }) {
     const valuePassword = (e) => {
         setPassword(e.target.value)
     }
-    const handleOnChange = () => {
-        setRemind(!remind)
+    const handleOnChange = (e) => {
+        setRemind(e.target.checked)
         console.log(remind)
     }
     const submit = async (e) => {
@@ -75,8 +74,7 @@ function Login({ context }) {
             userName: username,
             email,
             password,
-            google: false,
-            remind
+            google: false
         }
         if (login) {
             const usuario = await loginUser(newUser)
@@ -85,6 +83,7 @@ function Login({ context }) {
                 const t = usuario.data.token
                 setToken(t)
                 localStorage.setItem("token", t)
+                localStorage.setItem("remind", remind)
                 console.log(remind)
                 navigate('/cloud')
             }

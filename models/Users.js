@@ -3,8 +3,7 @@ const userSchema = new Schema({
     userName: String,
     email: String,
     passwordHash: String,
-    google: Boolean,
-    remind: Boolean
+    google: Boolean
 })
 userSchema.set("toJSON",{
    transform: (document, returnedObject) => {

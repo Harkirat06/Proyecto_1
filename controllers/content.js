@@ -29,16 +29,12 @@ const lista = (dirPath, data) => {
 
 contentRouter.get("/", tokenExtractor, async (req, res, next) => {
   const path = req.query.path
-  const {username} = req 
-  const user = await User.findOne({ username })
-  const remind = user.remind
   if (path !== "") {
     const data = []
     try {
       lista("." + path, data)
       res.json({
-        data,
-        remind
+        data
       })
     } catch (error) {
       next(error)
