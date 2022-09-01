@@ -19,10 +19,6 @@ loginRouter.post("/", async (req, res, next) => {
             const token = jwt.sign(userToken, process.env.TOKEN, {
                 expiresIn: 60 * 60 * 24 * 7
             })
-            user.remind = remind
-            console.log(remind)
-            console.log(user.remind)
-            user.save()
             return res.status(202).send({
                 username: user.userName,
                 token

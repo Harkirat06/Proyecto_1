@@ -10,6 +10,7 @@ export default function Navigation({ context }) {
   const onClick = () => {
     googleLogout()
     localStorage.removeItem("token")
+    window.onbeforeunload = null
     setToken(null)
     navigate("/")
   }

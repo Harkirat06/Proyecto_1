@@ -28,12 +28,12 @@ function Cards({ context }) {
         console.log(localStorage.getItem("remind"))
         const remind = localStorage.getItem("remind")
         if(remind==="false"){
-            window.addEventListener("beforeunload", (event)=>{
-                    window.localStorage.removeItem("token")
-                    googleLogout()
-                    console.log(event)
-                    event.returnValue = ""
-            })
+            window.onbeforeunload = (event)=>{
+                window.localStorage.removeItem("token")
+                googleLogout()
+                console.log(event)
+                event.returnValue = ""
+            }
         }
     },[])
     let i = 0
