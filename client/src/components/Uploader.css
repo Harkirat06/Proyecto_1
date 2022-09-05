@@ -1,0 +1,40 @@
+.page {
+  display: flex;
+  min-height: 50vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#form-file-upload {
+    height: 50vh;
+    width: 100vw;
+    max-width: 100%;
+    text-align: center;
+    position: relative;
+  }
+  
+  #input-file-upload {
+    display: none;
+  }
+  
+  #label-file-upload {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-width: 2px;
+    border-radius: 1rem;
+    border-style: dashed;
+    border-color: #cbd5e1;
+    background-color: #f8fafc;
+  }
+  
+  #drag-file-element {
+    position: absolute;
+    border-radius: 1rem;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    padding: 10px;
+  }

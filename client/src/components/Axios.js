@@ -1,6 +1,4 @@
 import axios from 'axios'
-import Axios from "axios"
-import fileDownload from 'js-file-download'
 
 export async function getContent(path, token) {
     if (path !== "") {
@@ -25,27 +23,6 @@ export async function getContent(path, token) {
         const arr = []
         return { arr, newPath}
     }
-}
-
-export async function downloadFile(title, path, directory, token) {
-    await Axios({
-        url: "/download",
-        method: "GET",
-        responseType: "blob",
-        headers: {"Authorization" : `Bearer ${token}`},
-        params: {
-            title: title,
-            path: path,
-            directory: directory
-        }
-    }).then((res) => {
-        console.log(res.data)
-        if (directory) {
-            fileDownload(res.data, title + ".zip")
-        } else {
-            fileDownload(res.data, title)
-        }
-    })
 }
 
 export async function deleteFiles(path, token) {

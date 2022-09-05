@@ -9,10 +9,14 @@ const deleteRouter = require("./controllers/delete")
 const contentRouter = require("./controllers/content")
 const dirRouter = require("./controllers/dir")
 const errorHandler = require("./middlewares/hadleErrors")
+const compression = require('compression')
+const zlib = require('zlib')
 
 const PORT = process.env.PORT || 5000
 
 const server = express()
+
+server.use(compression())
 
 server.use(express.json())
 

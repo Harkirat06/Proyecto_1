@@ -21,7 +21,6 @@ function App() {
             <Route path="/cloud" element={
               <div>
                 <Navigation context={StateContext} />
-                <Uploader context={StateContext} />
                 <Cards context={StateContext} />
               </div>
             } />

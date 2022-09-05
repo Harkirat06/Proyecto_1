@@ -1,13 +1,20 @@
-import React, { useContext } from 'react'
-import { ProgressBar, Button, Form, Alert } from 'react-bootstrap'
+import React, { useContext} from 'react'
+import { ProgressBar, Button, Form, Alert, Modal } from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css"
 import axios from 'axios'
+import Dropzone from "react-dropzone"
+import "./Uploader.css"
 
 
-export default function Uploader({ context }) {
+export default function Uploader(props) {
     const { finish, setFinish, progress, setProgress, setRefrescar,
-        doc, setDoc, error, setError, path, token } = useContext(context)
-    const OnClick = (e) => {
+        doc, setDoc, error, setError, path, token } = useContext(props.context)
+
+    const onDrop = (acceptedFiles) => {
+        setDoc(acceptedFiles)
+    }
+
+    const onClick = (e) => {
         e.preventDefault()
         if (doc) {
             const arr = Array.from(doc)
@@ -19,54 +26,62 @@ export default function Uploader({ context }) {
                 onUploadProgress: data => {
                     setProgress(Math.round((100 * data.loaded) / data.total))
                 },
-                headers: {"Authorization" : `Bearer ${token}`},
-                params:{
+                headers: { "Authorization": `Bearer ${token}` },
+                params: {
                     path: path
                 }
             }).then(() => {
                 setFinish(true)
                 setRefrescar(prev => prev + 1)
-                setTimeout(() => { setProgress(0) }, 5000)
+                props.onHide()
+                setProgress(0)
+                setDoc(null)
             })
         } else {
             setError(true)
+            setDoc(null)
+            props.onHide()
         }
     }
-    const onChange = (e) => {
-        setDoc(e.target.files)
-    }
-    const input = {
-        margin: 20
-    }
+
 
     return (
-        <div>
-            <div className="Alerta">
-                {error > 0 &&
-                    <Alert key={'danger'} variant={'danger'} onClose={() => setError(false)} dismissible style={input}>
-                        No has seleccionado ningún archivo!!
-                    </Alert>
-                }
-                {finish > 0 &&
-                    <Alert key={'primary'} variant={'primary'} onClose={() => setFinish(false)} dismissible style={input}>
-                        Subida finalizada con exito!!
-                    </Alert>
-                }
-            </div>
-            <div>
-                <Form.Group controlId="formFileMultiple" className="mb-3" style={input}>
-                    <Form.Control type="file" onChange={onChange} /*webkitdirectory="true"*/ multiple />
-                    <div className="d-grid gap-2" style={{ marginTop: 20 }}>
-                        <Button variant="primary" size="lg" onClick={OnClick}>
-                            Enviar
-                        </Button>
+        <Modal
+            {...props}
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+        >
+            <Modal.Header closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                    Upload Files
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <div>
+                    <div className="page">
+                        <Dropzone id="form-file-upload" onDrop={onDrop}>
+                            {({ getRootProps, getInputProps }) => (
+                                <section>
+                                    <div {...getRootProps()} id="drag-file-element">
+                                        <input {...getInputProps()} id="input-file-upload" />
+                                        <label id="label-file-upload">Drag your files here</label>
+                                    </div>
+                                </section>
+                            )}
+                        </Dropzone>
                     </div>
-                </Form.Group>
-            </div>
-            <div style={input}>
-                <ProgressBar animated now={progress} label={`${progress}%`} />
-            </div>
-        </div>
+                </div>
+            </Modal.Body>
+            <Modal.Body>
+                <div>
+                    <ProgressBar animated now={progress} label={`${progress}%`} />
+                </div>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button onClick={onClick}>Subir</Button>
+                <Button onClick={props.onHide}>Close</Button>
+            </Modal.Footer>
+        </Modal>
     )
 }
-

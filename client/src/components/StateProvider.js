@@ -14,6 +14,11 @@ function StateProvider({ context, children }) {
     const [password,setPassword] = useState("")
     const [login,setLogin] = useState(true)
     const [token, setToken] = useState(localStorage.getItem("token"))
+    const [showUpload, setShowUpload] = useState(false)
+    const [showDownload, setShowDownload] = useState(false)
+    const [download, setDownload] = useState([])
+    const [progreso, setProgreso] = useState(0)
+   
    
 
     const contextValue = useMemo(() => ({
@@ -21,7 +26,9 @@ function StateProvider({ context, children }) {
         finish, setFinish, error, setError, doc, setDoc,
         path, setPath,refrescar,login,setLogin,
         username, setUsername,password,setPassword,
-        email,setEmail, setArchivos, token, setToken
+        email,setEmail, setArchivos, token, setToken,
+        showUpload, setShowUpload, download, setDownload,
+        showDownload, setShowDownload, progreso, setProgreso
     }), [
         archivos,
         refrescar,
@@ -34,7 +41,11 @@ function StateProvider({ context, children }) {
         username,
         password,
         email,
-        token
+        token,
+        showUpload,
+        download,
+        showDownload,
+        progreso
     ]);
 
     return (
