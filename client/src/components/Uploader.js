@@ -1,5 +1,5 @@
-import React, { useContext} from 'react'
-import { ProgressBar, Button, Form, Alert, Modal } from 'react-bootstrap'
+import React, { useContext } from 'react'
+import { ProgressBar, Button,Card, Modal } from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css"
 import axios from 'axios'
 import Dropzone from "react-dropzone"
@@ -8,8 +8,8 @@ import "./Uploader.css"
 
 export default function Uploader(props) {
     const { finish, setFinish, progress, setProgress, setRefrescar,
-        doc, setDoc, error, setError, path, token } = useContext(props.context)
-
+        doc, setDoc, error, setError, path, token, upload, setUpload } = useContext(props.context)
+        let i = 0
     const onDrop = (acceptedFiles) => {
         setDoc(acceptedFiles)
     }
@@ -74,6 +74,19 @@ export default function Uploader(props) {
                 </div>
             </Modal.Body>
             <Modal.Body>
+                {doc &&
+                    doc.map(file => {
+                        return (
+                            <div key={i++} style={{marginBottom: "10px"}}>
+                                <Card bg={"dark"} text={"light"}>
+                                    <Card.Body>
+                                        <Card.Subtitle>{file.name}</Card.Subtitle>
+                                    </Card.Body>
+                                </Card>
+                            </div>
+                        )
+                    })
+                }
                 <div>
                     <ProgressBar animated now={progress} label={`${progress}%`} />
                 </div>

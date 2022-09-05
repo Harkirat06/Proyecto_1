@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ProgressBar, Button, Modal, Card } from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css"
-import CardDownload from './CardDownload'
+
 
 export default function Download(props) {
-    const { download, context} = props
+    const { context } = props
+    const { download} = useContext(context)
     let i = 0
     return (
         <Modal
@@ -21,15 +22,20 @@ export default function Download(props) {
             <Modal.Body>
                 <div>
                     <div>{download &&
-                        download.map(file =>{
+                        download.map(file => {
                             return (
                                 <div key={i++}>
-                                    <CardDownload titulo={file.titulo} progres={file.progreso} context={context}/> 
+                                    <Card>
+                                        <Card.Body>
+                                            <Card.Title>{file.titulo}</Card.Title>
+                                            <ProgressBar animated now={file.progreso} label={`${file.progreso}%`} />
+                                        </Card.Body>
+                                    </Card>
                                 </div>
-                                )
+                            )
                         }
                         )
-                        }
+                    }
                     </div>
                 </div>
             </Modal.Body>

@@ -11,7 +11,7 @@ import "./NotFound.css"
 import Download from "./Download"
 
 function Card({ title, context, directory }) {
-    const { setPath, path, setRefrescar, token, download, setDownload, showDownload, setShowDownload, setDProgress } = useContext(context)
+    const { setPath, path, setRefrescar, token, download, setDownload, showDownload, setShowDownload } = useContext(context)
     const [progress, setProgress] = useState(0)
     var extension = ""
     var imagen = "/public/img.jpg"
@@ -58,11 +58,13 @@ function Card({ title, context, directory }) {
     }
     useEffect(() => {
         if (download.length !== 0) {
-            download[download.length - 1] = { titulo: title, progreso: progress }
-            setDownload(download)
+           const index = download.findIndex(file=>{
+                return file.titulo === title
+            })
+            download[index].progreso = progress
+           setDownload([...download])
         }
-    }, [progress, download])
-
+    }, [progress])
     const downloadClick = async () => {
         setDownload([...download, { titulo: title, progreso: 0 }])
         setShowDownload(true)
@@ -100,8 +102,8 @@ function Card({ title, context, directory }) {
                 onHide={() => {
                     setShowDownload(false)
                 }}
-                download={download}
                 context={context}
+                progress={progress}
             />
             <div className="card text-center bg-dark">
                 <img src={imagen} className="card-img-top" alt="" onDoubleClick={() => {

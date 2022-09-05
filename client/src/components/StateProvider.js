@@ -17,7 +17,8 @@ function StateProvider({ context, children }) {
     const [showUpload, setShowUpload] = useState(false)
     const [showDownload, setShowDownload] = useState(false)
     const [download, setDownload] = useState([])
-    const [progreso, setProgreso] = useState(0)
+    const [upload, setUpload] = useState([])
+    
    
    
 
@@ -28,7 +29,7 @@ function StateProvider({ context, children }) {
         username, setUsername,password,setPassword,
         email,setEmail, setArchivos, token, setToken,
         showUpload, setShowUpload, download, setDownload,
-        showDownload, setShowDownload, progreso, setProgreso
+        showDownload, setShowDownload,upload, setUpload
     }), [
         archivos,
         refrescar,
@@ -44,8 +45,8 @@ function StateProvider({ context, children }) {
         token,
         showUpload,
         download,
-        showDownload,
-        progreso
+        showDownload, 
+        upload
     ]);
 
     return (

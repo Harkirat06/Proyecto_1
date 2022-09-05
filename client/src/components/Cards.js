@@ -10,7 +10,6 @@ import { makeDir, getContent } from "./Axios"
 import { useNavigate } from "react-router-dom"
 import { googleLogout } from '@react-oauth/google'
 import Uploader from "./Uploader"
-import Download from "./Download"
 
 
 function Cards({ context }) {
