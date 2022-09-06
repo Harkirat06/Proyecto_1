@@ -9,9 +9,11 @@ import { Dropdown, Button } from "react-bootstrap"
 import "./Card.css"
 import "./NotFound.css"
 import Download from "./Download"
+import VideoPlayer from "./VideoPlayer"
 
 function Card({ title, context, directory }) {
-    const { setPath, path, setRefrescar, token, download, setDownload, showDownload, setShowDownload } = useContext(context)
+    const { setPath, path, setRefrescar, token, download, setDownload, showDownload, setShowDownload,
+        showVideo, setShowVideo } = useContext(context)
     const [progress, setProgress] = useState(0)
     var extension = ""
     var imagen = "/public/img.jpg"
@@ -58,11 +60,11 @@ function Card({ title, context, directory }) {
     }
     useEffect(() => {
         if (download.length !== 0) {
-           const index = download.findIndex(file=>{
+            const index = download.findIndex(file => {
                 return file.titulo === title
             })
             download[index].progreso = progress
-           setDownload([...download])
+            setDownload([...download])
         }
     }, [progress])
     const downloadClick = async () => {
@@ -97,6 +99,14 @@ function Card({ title, context, directory }) {
     }
     return (
         <div>
+            <VideoPlayer
+                show={showVideo}
+                onHide={() => {
+                    setShowVideo(false)
+                }}
+                context={context}
+                titulo = {title}
+            />
             <Download
                 show={showDownload}
                 onHide={() => {
@@ -106,7 +116,14 @@ function Card({ title, context, directory }) {
             />
             <div className="card text-center bg-dark">
                 <img src={imagen} className="card-img-top" alt="" onDoubleClick={() => {
-                    setPath(prev => prev + "/" + title)
+                    if(directory){
+                        setPath(prev => prev + "/" + title)
+                    }else{
+                        if(extension==="mp4"){
+                            setShowVideo(true)
+                        }
+                    }
+                    
                 }} />
                 <div className="card-body text-light">
                     <h6 className="card-title" data-toggle="tooltip" data-placement="right" title={title}>{title}</h6>

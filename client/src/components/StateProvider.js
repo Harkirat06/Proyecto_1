@@ -13,6 +13,7 @@ function StateProvider({ context, children }) {
     const [token, setToken] = useState(localStorage.getItem("token"))
     const [showUpload, setShowUpload] = useState(false)
     const [showDownload, setShowDownload] = useState(false)
+    const [showVideo, setShowVideo] = useState(false)
     const [download, setDownload] = useState([])
     const [upload, setUpload] = useState([])
     
@@ -25,7 +26,8 @@ function StateProvider({ context, children }) {
         path, setPath,refrescar,login,setLogin,
         setArchivos, token, setToken,
         showUpload, setShowUpload, download, setDownload,
-        showDownload, setShowDownload,upload, setUpload
+        showDownload, setShowDownload,upload, setUpload,
+        showVideo, setShowVideo
     }), [
         archivos,
         refrescar,
@@ -39,7 +41,8 @@ function StateProvider({ context, children }) {
         showUpload,
         download,
         showDownload, 
-        upload
+        upload,
+        showVideo
     ]);
 
     return (
