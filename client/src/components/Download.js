@@ -24,8 +24,8 @@ export default function Download(props) {
                     <div>{download &&
                         download.map(file => {
                             return (
-                                <div key={i++}>
-                                    <Card>
+                                <div key={i++} style={{marginBottom:"10px"}}>
+                                    <Card bg={"dark"} text={"light"}>
                                         <Card.Body>
                                             <Card.Title>{file.titulo}</Card.Title>
                                             <ProgressBar animated now={file.progreso} label={`${file.progreso}%`} />

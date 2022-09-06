@@ -10,6 +10,7 @@ import { makeDir, getContent } from "./Axios"
 import { useNavigate } from "react-router-dom"
 import { googleLogout } from '@react-oauth/google'
 import Uploader from "./Uploader"
+import Download from "./Download"
 
 
 function Cards({ context }) {
@@ -79,6 +80,13 @@ function Cards({ context }) {
                 }}
                 context={context}
             />
+            <Download
+                show={showDownload}
+                onHide={() => {
+                    setShowDownload(false)
+                }}
+                context={context}
+            />
             <div style={{ margin: 20 }}>
                 <button type="button" className="btn btn-primary" onClick={subir}>
                     <h4><FaLevelUpAlt style={{ verticalAlign: "middle" }} /></h4>
@@ -103,7 +111,9 @@ function Cards({ context }) {
                 <button type="button" style={{
                     overflow: "hidden",
                     float: "right"
-                }} className="btn btn-primary" onClick={() => setShowDownload(true)}>
+                }} className="btn btn-primary" onClick={() => {
+                    setShowDownload(true)
+                    console.log("Descargas")}}>
                     <h5><BsDownload style={{ verticalAlign: "middle", marginTop: "8px" }} /></h5>
                 </button>
             </div>

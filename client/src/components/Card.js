@@ -103,7 +103,6 @@ function Card({ title, context, directory }) {
                     setShowDownload(false)
                 }}
                 context={context}
-                progress={progress}
             />
             <div className="card text-center bg-dark">
                 <img src={imagen} className="card-img-top" alt="" onDoubleClick={() => {

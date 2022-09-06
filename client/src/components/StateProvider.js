@@ -9,9 +9,6 @@ function StateProvider({ context, children }) {
     const [doc, setDoc] = useState(null)
     const [error, setError] = useState(false)
     const [path, setPath] = useState("/uploads")
-    const [username, setUsername] = useState("")
-    const [email,setEmail] = useState("")
-    const [password,setPassword] = useState("")
     const [login,setLogin] = useState(true)
     const [token, setToken] = useState(localStorage.getItem("token"))
     const [showUpload, setShowUpload] = useState(false)
@@ -26,8 +23,7 @@ function StateProvider({ context, children }) {
         archivos, setRefrescar, progress, setProgress,
         finish, setFinish, error, setError, doc, setDoc,
         path, setPath,refrescar,login,setLogin,
-        username, setUsername,password,setPassword,
-        email,setEmail, setArchivos, token, setToken,
+        setArchivos, token, setToken,
         showUpload, setShowUpload, download, setDownload,
         showDownload, setShowDownload,upload, setUpload
     }), [
@@ -39,9 +35,6 @@ function StateProvider({ context, children }) {
         doc,
         path,
         login,
-        username,
-        password,
-        email,
         token,
         showUpload,
         download,
