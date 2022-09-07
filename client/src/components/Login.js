@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css"
 import { Container, Row, Col, Form, FormLabel, Button } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
@@ -84,7 +84,7 @@ function Login({ context }) {
         }
         const usuario = await loginUser(newUser)
         console.log(usuario)
-        if (usuario.status == 202) {
+        if (usuario.status === 202) {
             const t = usuario.data.token
             setToken(t)
             localStorage.setItem("token", t)
@@ -192,7 +192,7 @@ function Login({ context }) {
                                  {...register("confirm_password", {
                                     required: messages.req,
                                     validate: (val) => {
-                                      if (watch('passwordRegister') != val) {
+                                      if (watch('passwordRegister') !== val) {
                                         return "Tu contraseña no coincide"
                                       }
                                     },

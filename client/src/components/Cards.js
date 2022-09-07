@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import { ProgressBar, Button, Form, Alert, Modal } from 'react-bootstrap'
+import { Alert} from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css"
 import Card from "./Card"
 import { AiOutlineReload } from "react-icons/ai"
@@ -11,12 +11,13 @@ import { useNavigate } from "react-router-dom"
 import { googleLogout } from '@react-oauth/google'
 import Uploader from "./Uploader"
 import Download from "./Download"
+import VideoPlayer from "./VideoPlayer"
 
 
 function Cards({ context }) {
     const { archivos, setRefrescar, setPath, path, setArchivos, refrescar, token,
         error, setError, finish, setFinish, setDoc, showUpload, setShowUpload,
-        showDownload, setShowDownload, download } = useContext(context)
+        showDownload, setShowDownload, setShowVideo,showVideo } = useContext(context)
     const navigate = useNavigate()
 
     useEffect(async () => {
@@ -84,6 +85,13 @@ function Cards({ context }) {
                 show={showDownload}
                 onHide={() => {
                     setShowDownload(false)
+                }}
+                context={context}
+            />
+             <VideoPlayer
+                show={showVideo}
+                onHide={() => {
+                    setShowVideo(false)
                 }}
                 context={context}
             />

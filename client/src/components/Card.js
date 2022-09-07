@@ -8,16 +8,14 @@ import { MdDelete } from "react-icons/md"
 import { Dropdown, Button } from "react-bootstrap"
 import "./Card.css"
 import "./NotFound.css"
-import Download from "./Download"
-import VideoPlayer from "./VideoPlayer"
 
 function Card({ title, context, directory }) {
-    const { setPath, path, setRefrescar, token, download, setDownload, showDownload, setShowDownload,
-        showVideo, setShowVideo } = useContext(context)
+    const { setPath, path, setRefrescar, token, download, setDownload, setShowDownload,
+         setShowVideo, setTitulo } = useContext(context)
     const [progress, setProgress] = useState(0)
     var extension = ""
-    var imagen = "/public/img.jpg"
-    if (title != title.split(".").pop()) {
+    var imagen = ""
+    if (title !== title.split(".").pop()) {
         extension = title.split(".").pop()
     }
     switch (extension) {
@@ -56,6 +54,9 @@ function Card({ title, context, directory }) {
             break
         case "jpeg":
             imagen = "/public/imagen.png"
+            break
+        default: 
+            imagen = "/public/img.jpg"
             break
     }
     useEffect(() => {
@@ -98,28 +99,14 @@ function Card({ title, context, directory }) {
         })
     }
     return (
-        <div>
-            <VideoPlayer
-                show={showVideo}
-                onHide={() => {
-                    setShowVideo(false)
-                }}
-                context={context}
-                titulo = {title}
-            />
-            <Download
-                show={showDownload}
-                onHide={() => {
-                    setShowDownload(false)
-                }}
-                context={context}
-            />
             <div className="card text-center bg-dark">
                 <img src={imagen} className="card-img-top" alt="" onDoubleClick={() => {
                     if(directory){
                         setPath(prev => prev + "/" + title)
                     }else{
                         if(extension==="mp4"){
+                            console.log(title)
+                            setTitulo(title)
                             setShowVideo(true)
                         }
                     }
@@ -142,7 +129,6 @@ function Card({ title, context, directory }) {
                     </Dropdown>
                 </div>
             </div>
-        </div>
     )
 
 }

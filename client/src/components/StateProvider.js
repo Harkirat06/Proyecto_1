@@ -16,6 +16,7 @@ function StateProvider({ context, children }) {
     const [showVideo, setShowVideo] = useState(false)
     const [download, setDownload] = useState([])
     const [upload, setUpload] = useState([])
+    const [titulo, setTitulo] = useState("")
     
    
    
@@ -27,7 +28,7 @@ function StateProvider({ context, children }) {
         setArchivos, token, setToken,
         showUpload, setShowUpload, download, setDownload,
         showDownload, setShowDownload,upload, setUpload,
-        showVideo, setShowVideo
+        showVideo, setShowVideo, titulo, setTitulo
     }), [
         archivos,
         refrescar,
@@ -42,7 +43,8 @@ function StateProvider({ context, children }) {
         download,
         showDownload, 
         upload,
-        showVideo
+        showVideo,
+        titulo
     ]);
 
     return (

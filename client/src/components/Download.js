@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { ProgressBar, Button, Modal, Card } from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css"
 

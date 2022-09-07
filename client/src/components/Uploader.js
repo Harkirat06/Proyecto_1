@@ -7,8 +7,8 @@ import "./Uploader.css"
 
 
 export default function Uploader(props) {
-    const { finish, setFinish, progress, setProgress, setRefrescar,
-        doc, setDoc, error, setError, path, token, upload, setUpload } = useContext(props.context)
+    const {setFinish, progress, setProgress, setRefrescar,
+        doc, setDoc, setError, path, token } = useContext(props.context)
         let i = 0
     const onDrop = (acceptedFiles) => {
         setDoc(acceptedFiles)
