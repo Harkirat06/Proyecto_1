@@ -6,7 +6,7 @@ function StateProvider({ context, children }) {
     const [refrescar, setRefrescar] = useState(0)
     const [progress, setProgress] = useState(0)
     const [finish, setFinish] = useState(false)
-    const [doc, setDoc] = useState(null)
+    const [doc, setDoc] = useState([])
     const [error, setError] = useState(false)
     const [path, setPath] = useState("/uploads")
     const [login,setLogin] = useState(true)

@@ -13,6 +13,7 @@ function Card({ title, context, directory }) {
     const { setPath, path, setRefrescar, token, download, setDownload, setShowDownload,
          setShowVideo, setTitulo } = useContext(context)
     const [progress, setProgress] = useState(0)
+    var controller
     var extension = ""
     var imagen = ""
     if (title !== title.split(".").pop()) {
@@ -69,7 +70,8 @@ function Card({ title, context, directory }) {
         }
     }, [progress])
     const downloadClick = async () => {
-        setDownload([...download, { titulo: title, progreso: 0 }])
+        controller = new AbortController()
+        setDownload([...download, { titulo: title, progreso: 0, controller: controller}])
         setShowDownload(true)
         await Axios({
             url: "/download",
@@ -83,7 +85,8 @@ function Card({ title, context, directory }) {
                 title: title,
                 path: path,
                 directory: directory
-            }
+            },
+            signal: controller.signal
         }).then((res) => {
             console.log(res.data)
             if (directory) {
@@ -91,7 +94,7 @@ function Card({ title, context, directory }) {
             } else {
                 fileDownload(res.data, title)
             }
-        })
+        }).catch((error)=>{console.log(error)})
     }
     const deleteFile = () => {
         deleteFiles(path + "/" + title, token).then((res) => {
@@ -105,7 +108,6 @@ function Card({ title, context, directory }) {
                         setPath(prev => prev + "/" + title)
                     }else{
                         if(extension==="mp4"){
-                            console.log(title)
                             setTitulo(title)
                             setShowVideo(true)
                         }

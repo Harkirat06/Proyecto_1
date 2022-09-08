@@ -17,7 +17,6 @@ import {
 export default function VideoPlayer(props) {
     const { context} = props
     const {titulo} = useContext(context)
-    console.log(titulo)
     return (
         <div>
             <Modal

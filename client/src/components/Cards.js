@@ -77,7 +77,6 @@ function Cards({ context }) {
                 show={showUpload}
                 onHide={() => {
                     setShowUpload(false)
-                    setDoc(null)
                 }}
                 context={context}
             />

@@ -1,11 +1,13 @@
 import React, { useContext } from 'react'
 import { ProgressBar, Button, Modal, Card } from 'react-bootstrap'
+import { ImCancelCircle } from "react-icons/im"
 import "bootstrap/dist/css/bootstrap.min.css"
+import "./NotFound.css"
 
 
 export default function Download(props) {
     const { context } = props
-    const { download} = useContext(context)
+    const { download, setDownload } = useContext(context)
     let i = 0
     return (
         <Modal
@@ -24,12 +26,21 @@ export default function Download(props) {
                     <div>{download &&
                         download.map(file => {
                             return (
-                                <div key={i++} style={{marginBottom:"10px"}}>
+                                <div key={i++} style={{ marginBottom: "10px" }}>
                                     <Card bg={"dark"} text={"light"}>
                                         <Card.Body>
                                             <Card.Title>{file.titulo}</Card.Title>
                                             <ProgressBar animated now={file.progreso} label={`${file.progreso}%`} />
                                         </Card.Body>
+                                        <Card.Footer>
+                                            <div className="d-grid gap-2">
+                                                <Button variant="outline-danger" onClick={()=>{
+                                                    file.controller.abort()
+                                                    let arr = download.filter((item) => item.titulo !== file.titulo)
+                                                    setDownload(arr)
+                                                }}><ImCancelCircle className='icon' /> Cancel</Button>
+                                            </div>
+                                        </Card.Footer>
                                     </Card>
                                 </div>
                             )

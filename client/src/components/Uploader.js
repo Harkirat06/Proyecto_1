@@ -11,15 +11,21 @@ export default function Uploader(props) {
         doc, setDoc, setError, path, token } = useContext(props.context)
         let i = 0
     const onDrop = (acceptedFiles) => {
-        setDoc(acceptedFiles)
+        let arr = doc.concat(acceptedFiles)
+        let arrMap = arr.map(file => {
+            return [JSON.stringify(file), file]
+        })
+        let map = new Map(arrMap)
+        let result = [...map.values()]
+        console.log(result)
+        setDoc(result)
     }
 
     const onClick = (e) => {
         e.preventDefault()
         if (doc) {
-            const arr = Array.from(doc)
             const data = new FormData()
-            arr.map((file) => {
+            doc.map((file) => {
                 data.append("docs", file)
             })
             axios.post("/uploadFile", data, {
