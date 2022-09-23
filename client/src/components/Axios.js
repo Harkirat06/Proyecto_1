@@ -11,17 +11,21 @@ export async function getContent(path, token) {
             const { response } = e
             return response
         })
+        console.log(response)
+        if(response.data.error === "Token Expired"){
+            let dat = response.data.error
+            const newPath = path
+            return {dat, newPath}   
+        }else{
         let dat = []
+        dat = response.data.data
         const newPath = path
-        const status = response.status
-        if(status!==401){
-            dat = response.data.data
+        return {dat, newPath}
         }
-        return { dat, newPath, status}
     } else {
         const newPath = path + "/uploads"
-        const arr = []
-        return { arr, newPath}
+        const dat = []
+        return { dat, newPath}
     }
 }
 

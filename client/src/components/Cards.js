@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import { Alert} from 'react-bootstrap'
+import { Alert } from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css"
 import Card from "./Card"
 import { AiOutlineReload } from "react-icons/ai"
@@ -16,18 +16,24 @@ import VideoPlayer from "./VideoPlayer"
 
 function Cards({ context }) {
     const { archivos, setRefrescar, setPath, path, setArchivos, refrescar, token,
-        error, setError, finish, setFinish, setDoc, showUpload, setShowUpload,
-        showDownload, setShowDownload, setShowVideo,showVideo } = useContext(context)
+        error, setError, finish, setFinish, showUpload, setShowUpload,
+        showDownload, setShowDownload, setShowVideo, showVideo } = useContext(context)
     const navigate = useNavigate()
 
-    useEffect(async () => {
+    useEffect(() => {
         if (token !== undefined && token !== null) {
-            const { dat, newPath, status } = await getContent(path, token)
-            setArchivos(dat)
-            setPath(newPath)
-            if (status === 401) {
-                navigate("/")
+            const content = async () => {
+                const { dat, newPath } = await getContent(path, token)
+                console.log(dat)
+                if (dat === "Token Expired") {
+                    localStorage.removeItem("token")
+                    navigate("/")
+                } else {
+                    setArchivos(dat)
+                    setPath(newPath)
+                }
             }
+            content()
         } else {
             navigate("/")
         }
@@ -87,7 +93,7 @@ function Cards({ context }) {
                 }}
                 context={context}
             />
-             <VideoPlayer
+            <VideoPlayer
                 show={showVideo}
                 onHide={() => {
                     setShowVideo(false)
@@ -105,7 +111,9 @@ function Cards({ context }) {
                     overflow: "hidden",
                     float: "right",
                     marginLeft: 20
-                }} className="btn btn-primary" onClick={() => setRefrescar(prev => prev + 1)}>
+                }} className="btn btn-primary" onClick={() => {
+                    setRefrescar(prev => prev + 1)
+                }}>
                     <h5><AiOutlineReload style={{ verticalAlign: "middle", marginTop: "8px" }} /></h5>
                 </button>
                 <button type="button" style={{
@@ -120,7 +128,8 @@ function Cards({ context }) {
                     float: "right"
                 }} className="btn btn-primary" onClick={() => {
                     setShowDownload(true)
-                    console.log("Descargas")}}>
+                    console.log("Descargas")
+                }}>
                     <h5><BsDownload style={{ verticalAlign: "middle", marginTop: "8px" }} /></h5>
                 </button>
             </div>
