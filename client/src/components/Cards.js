@@ -15,7 +15,7 @@ import VideoPlayer from "./VideoPlayer"
 
 
 function Cards({ context }) {
-    const { archivos, setRefrescar, setPath, path, setArchivos, refrescar, token,
+    const { archivos, setRefrescar, setPath, path, setArchivos, refrescar, token,setToken,
         error, setError, finish, setFinish, showUpload, setShowUpload,
         showDownload, setShowDownload, setShowVideo, showVideo } = useContext(context)
     const navigate = useNavigate()
@@ -27,6 +27,8 @@ function Cards({ context }) {
                 console.log(dat)
                 if (dat === "Token Expired") {
                     localStorage.removeItem("token")
+                    setToken(null)
+                    console.log("Token Removed")
                     navigate("/")
                 } else {
                     setArchivos(dat)
