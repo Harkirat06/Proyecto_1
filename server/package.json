@@ -1,0 +1,43 @@
+{
+  "name": "proyecto_1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon index.js",
+    "client": "npm start --prefix ../client/",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "adm-zip": "^0.5.9",
+    "based-blob": "^1.0.1",
+    "bcrypt": "^5.0.1",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "del": "^6.1.1",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "file-saver": "^2.0.5",
+    "fs": "^0.0.1-security",
+    "js-file-download": "^0.4.12",
+    "jsonwebtoken": "^8.5.1",
+    "jszip": "^3.10.0",
+    "jwt-decode": "^3.1.2",
+    "mongoose": "^6.4.4",
+    "multer": "^1.4.4",
+    "node-blob": "^0.0.2",
+    "nodemon": "^2.0.15",
+    "path": "^0.12.7",
+    "progress-stream": "^2.0.0",
+    "react-router-dom": "^6.3.0",
+    "tar": "^6.1.11",
+    "zlib": "^1.0.5"
+  },
+  "devDependencies": {
+    "concurrently": "^7.0.0"
+  }
+}
